@@ -1,0 +1,32 @@
+{
+"vehicles" : [ 
+    {	"id": "1",
+        "make": "Mercedes Benz",
+        "model" : "E300",
+        "year" : "2017",
+        "price" : "130,000 AED",
+        "transmission" : "Automatic",
+        "fuel" : "Gasoline",
+        "description" : "The car is brand new condition well maintained Used as second car driven on weekends Always parked in covered private parking",
+        "features" : "4 Wheel Drive",
+        "img-1" : "assets/1-car1.jpg",
+        "img-2" : "assets/1-car2.jpg",
+        "img-3" : "assets/1-car3.jpg",
+        "img-4" : "assets/1-car4.jpg"
+
+    },
+    {	"id": "2",
+        "make": "Hyundai",
+        "model" : "E500",
+        "year" : "2018",
+        "price" : "100,000 AED",
+        "transmission" : "Automatic",
+        "fuel" : "Gasoline",
+        "description" : "The car is brand new condition well maintained Used as second car driven on weekends Always parked in covered private parking",
+        "features" : "4 Wheel Drive",
+        "img-1" : "assets/2-car1.jpg",
+        "img-2" : "assets/2-car2.jpg",
+        "img-3" : "assets/2-car3.jpg",
+        "img-4" : "assets/2-car4.jpg"
+    }]
+}
