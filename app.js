@@ -17,9 +17,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', require('./routes/index'));
+
+app.use('/newadpage', require('./routes/newadpage'));
 app.use('/manageadpage', require('./routes/manageadpage'));
 app.use('/monitorpage', require('./routes/monitorpage'));
-app.use('/newadpage', require('./routes/newadpage'));
 app.use('/searchresultpage', require('./routes/searchresultpage'));
 app.use('/userprofilepage', require('./routes/userprofilepage'));
 app.use('/vehicledetails', require('./routes/vehicledetails'));

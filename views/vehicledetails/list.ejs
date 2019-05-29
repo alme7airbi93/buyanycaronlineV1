@@ -88,56 +88,58 @@
 					<div id="vdBox-container">
 						<div id="vd-box">
     						<div id="vdHeader">
-        <div id="vdHeader-title">Mercedes Benz- E300</div>
-        <div><span>Price: </span>130,000AED</div>
-        <div><span>Created Date: </span>7th January 2019</div>
-    	<div id="vdViewedHeader">
-        	<div><span>Viewed This: </span>105 </div> 
-		</div>
-		</div>
-							
+        						<div id="vdHeader-title"><%=row.make + " - " + row.model%></div>
+        						<div><span>Price: </span><%=row.price%></div>
+        						<div><span>Created Date: </span><%=row.makedate%></div>
+								<div id="vdViewedHeader">
+									<div><span>Viewed This: </span><%=row.visit%></div> 
+								</div>
+							</div>
 							
 							<div id="vd-preview">
 							<div id="vd-previewImage">
     						<i id="vd-previewImageLeft" class="fa fa-caret-left" aria-hidden="true" onclick='previewImageLeft()'></i>
-							<img src="/assets/img/1-car1.jpeg">
+							<img src="<%=row.img1%>">
 							<i id="vd-previewImageFullScreen" class="fa fa-arrows-alt" aria-hidden="true" onclick="previewImage()"></i>	
     						<i id="vd-previewImageRight" class="fa fa-caret-right" aria-hidden="true" onclick='previewImageRight()'></i>
 							</div>
 								<div id="vdPreviewItems">
 									<div class="vdItem-image">
-										<img src="/assets/img/1-car1.jpeg">
+										<img src="<%=row.img1%>">
 									</div>
 									<div class="vdItem-image">
-										<img src="/assets/img/1-car2.jpeg">
+										<img src="<%=row.img2%>">
 									</div>
 									<div class="vdItem-image">
-										<img src="/assets/img/1-car3.jpeg">
+										<img src="<%=row.img3%>">
 									</div>
 									<div class="vdItem-image">
-										<img src="/assets/img/1-car4.jpeg">
+										<img src="<%=row.img4%>">
 									</div>
 								</div>
 								<div id="vd-info">
 									<div id="vdInfo-innerLeft">					
-									<div><span>Make: </span> Mercedes Benz</div>
-									<div><span>Model: </span> E300</div>
-									<div><span>Year:</span> 2017</div>
-									<div><span>Price:</span> 130,000 AED</div>
-									<div><span>Transmission:</span> Automatic</div>
-									<div><span>Fuel:</span> Gasoline
+									<div><span>Make: </span><%=row.make%></div>
+									<div><span>Model: </span><%=row.model%></div>
+									<div><span>Year:</span><%=row.year%></div>
+									<div><span>Price:</span><%=row.price%></div>
+									<div><span>Transmission:</span><%=row.trans%></div>
+									<div><span>Fuel:</span><%=row.fuel%>
 									</div>
     								</div>
 									<div id="vdInfo-innerRight">
 									<div><span>Description: </span>
-									The car is brand new condition well maintained Used as second car driven on weekends Always parked in covered private parking
+										<%=row.description%>
 									</div>
 									<div><span>Features: </span>
 									<ul>
-										<li>4 Wheel Drive</li>
-										<li>Cruise Control</li>
-										<li>Bluetooth System</li>
-										<li>Air Conditioner</li>
+									<% 
+									var features = "4 Wheel Drive, Cruise Control, Bluetooth System, Air Conditioner";
+									var arr = features.split(",");
+									for(var i = 0; i < arr.length; i++) {
+									%>
+										<li><%=arr[i]%></li>
+									<% } %>
 									</ul>
 									</div>
     							</div>

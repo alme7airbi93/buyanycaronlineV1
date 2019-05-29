@@ -1,14 +1,58 @@
 var express = require('express');
 var router = express.Router();
-//var firebase = require("firebase");
+var firebase = require("firebase");
 var dateFormat = require('dateformat');
 
 router.get('/', function(req, res, next) {
-    res.redirect('/newadpage/list');
+    res.redirect('/newadpage/new');
 });
-      
-router.get('/list', function(req, res, next) {
-    res.render('newadpage/list', { title: 'Buyanycaronline : New Add Page' });
+
+var config = {
+    apiKey: "AIzaSyB7IAjdsna6Rms_GXT_mQ46I8cbh6wnSyQ",
+    authDomain: "caronline-daf98.firebaseapp.com",
+    databaseURL: "https://caronline-daf98.firebaseio.com",
+    projectId: "caronline-daf98",
+    storageBucket: "caronline-daf98.appspot.com",
+    messagingSenderId: "631041197933",
+    appId: "1:631041197933:web:eb5ce14f4561415c"
+};
+
+firebase.initializeApp(config);
+
+router.get('/new', function(req, res, next) {
+    
+    res.render('newadpage/new', { title: 'Buyanycaronline : New Ad Page' });
+   
+});
+
+router.post('/save', function(req, res, next) {
+    
+    var postData = req.body;
+    if (!postData.id) {
+        postData.id = firebase.database().ref().child('vehicles').push().key;
+    }
+
+    postData.price = "130,000 USD";
+    postData.year = "2017";
+    postData.makedate = "7th January 2018";
+    console.log(postData);
+    postData.img1 = "/uploads/" + postData.id + "-1.jpg";
+    postData.img2 = "/uploads/" + postData.id + "-2.jpg";
+    postData.img3 = "/uploads/" + postData.id + "-3.jpg";
+    postData.img4 = "/uploads/" + postData.id + "-4.jpg";
+    
+    postData.visit = "5";
+    
+    console.log(postData);
+    
+    firebase.database().ref('vehicles/' + req.body.id).set(req.body);
+   
+});
+
+router.post('/upload', function(req, res, next) {
+    
+    console.log(req.body);
+   
 });
 
 module.exports = router;
