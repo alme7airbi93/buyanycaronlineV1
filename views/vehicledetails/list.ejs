@@ -1,85 +1,4 @@
-<html lang="en-US"><head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
-
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Exo+2%3A400%2C300%2C500%2C600%2C700%7COpen+Sans%3A300%2C400%2C700&amp;subset=latin%2Clatin-ext&amp;ver=1.0.2" type="text/css" media="all">
-
-	<link rel="stylesheet" type="text/css" media="all" href="/assets/css/style.css">
-	<title><%= title %></title>
-</head>
-
-
-<body>
-	<div id="main-wrapper">
-		<header>
-			<div id="header-main">
-				<div class="container clearfix">
-					<div id="header-left">
-						<div class="clearfix">
-							<!--Logo-->
-							<a class="header-logo" href="#">
-								<img src="/assets/img/logo.jpg" alt="Logo">
-							</a>
-						</div>
-					</div>
-					<div id="header-right">
-						<div id="header-authentication">
-							<button type="button" data-toggle="modal" data-target="#loginPopup">LOGIN</button>
-							<span>|</span>
-							<button type="button" data-toggle="modal" data-target="#registerPopup">REGISTER</button>
-						</div>
-						<div id="header-select">
-							<div>
-								<a id="header-language" href="#" data-toggle="dropdown" data-width="100%">
-									<img src="/assets/img/lang-eng.png">ENGLISH</a>
-								<ul class="dropdown-menu dropdown-menu-right">
-									<li><a href="#">Arabic</a>
-									</li>
-									<li><a href="#">French</a>
-									</li>
-								</ul>
-							</div>
-							<div>
-								<a id="header-currency" href="#" data-toggle="dropdown" data-width="100%">
-									<i class="fa fa-money" style="margin-right: 3px;"></i>AED</a>
-								<ul class="dropdown-menu dropdown-menu-right">
-									<li><a href="#">USD</a>
-									</li>
-									<li><a href="#">INR</a>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<nav id="mainMenu">
-				<div class="container">
-					<div id="mainMenu-inner">
-						<a href="javascript:void(0);" id="mainMenu-icon" onclick="menuFunction()">
-							<i class="fa fa-bars"></i>
-						</a>
-						<ul id="mainMenu-links" class="clearfix">
-							<li><a href="#" class="active">Home</a>
-							</li>
-							<li><a href="#">Cars</a>
-							</li>
-							<li><a href="#">Boats</a>
-							</li>
-							<li><a href="#">About</a>
-							</li>
-							<li><a href="#">Contact</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</nav>
-		</header>
+<%- include('../layouts/header'); %>
 
 		<!--main content-->
 		<div class="main-content-wrapper">
@@ -255,36 +174,39 @@
 		}
 	</script>
 	<script>
+
 		var slideIndex=0;
 		var imageContainer=$(".vdItem-image");
-	function previewImageLeft(n){
-		slideIndex-=1;
-		if(slideIndex<0)slideIndex=$(".vdItem-image").length-1;
-		setImage();
-		
-	}
+
+		function previewImageLeft(n){
+			slideIndex-=1;
+			if(slideIndex<0)slideIndex=$(".vdItem-image").length-1;
+			setImage();
+		}
+
 		function previewImageRight(){
 			slideIndex+=1;
 			if(slideIndex>$(".vdItem-image").length-1)slideIndex=0;
 			setImage();
-	}
+		}
+
 		function setImage(){
-		var imageSrc= imageContainer.eq(slideIndex).find('img').attr('src');
-		$("#vd-previewImage").find('img').attr('src',imageSrc);
+			var imageSrc= imageContainer.eq(slideIndex).find('img').attr('src');
+			$("#vd-previewImage").find('img').attr('src',imageSrc);
 		}
 		
 		function previewImage(){
-						$("#popupImage").attr('src',$("#vd-previewImage").find('img').attr('src'));
-		$("#imagePopupContainer").css('display','block');
+			$("#popupImage").attr('src',$("#vd-previewImage").find('img').attr('src'));
+			$("#imagePopupContainer").css('display','block');
 			$("body").css('overflow','hidden');
 
 		}
+
 		function imagePopupClose(){
-					$("#imagePopupContainer").css('display','none');
+			$("#imagePopupContainer").css('display','none');
 			$("body").css('overflow','auto');
 		}
+		
 	</script>
 			 
-
-
-</body></html>
+<%- include('../layouts/footer'); %>

@@ -1,91 +1,6 @@
-<!DOCTYPE html>
-<html lang="en-US">
+<%- include('layouts/header'); %>
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
-
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Exo+2%3A400%2C300%2C500%2C600%2C700%7COpen+Sans%3A300%2C400%2C700&amp;subset=latin%2Clatin-ext&amp;ver=1.0.2" type="text/css" media="all">
-
-	<link rel="stylesheet" type="text/css" media="all" href="/assets/css/style.css">
-	<title><%= title %></title>
-</head>
-
-<body>
-	<div id="main-wrapper">
-		<header>
-			<div id="header-main">
-				<div class="container clearfix">
-					<div id="header-left">
-						<div class="clearfix">
-							<!--Logo-->
-							<a class="header-logo" href="#">
-								<img src="/assets/img/logo.jpg" alt="Logo">
-							</a>
-						</div>
-					</div>
-					<div id="header-right">
-						<div id="header-authentication">
-							<button type="button" data-toggle="modal" data-target="#loginPopup">LOGIN</button>
-							<span>|</span>
-							<button type="button" data-toggle="modal" data-target="#registerPopup">REGISTER</button>
-						</div>
-						<div id="header-select">
-							<div>
-							<a id="header-language" href="#" data-toggle="dropdown" data-width="100%">
-								<img src="/assets/img/lang-eng.png">ENGLISH</a>
-							<ul class="dropdown-menu dropdown-menu-right">
-								<li><a href="#">Arabic</a></li>
-								<li><a href="#">French</a></li>
-							</ul>
-							</div>
-							<div>
-							<a id="header-currency" href="#" data-toggle="dropdown" data-width="100%">
-								<i class="fa fa-money" style="margin-right: 3px;"></i>AED</a>
-							<ul class="dropdown-menu dropdown-menu-right">
-								<li><a href="#">USD</a></li>
-								<li><a href="#">INR</a></li>
-							</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<nav id="mainMenu">
-				<div class="container">
-					<div id="mainMenu-inner">
-						<a href="javascript:void(0);" id="mainMenu-icon" onclick="menuFunction()">
-							<i class="fa fa-bars"></i>
-						</a>
-						<ul id="mainMenu-links" class="clearfix">
-							<li><a href="#" class="active">Home</a>
-							</li>
-							<li><a href="#">Cars</a>
-							</li>
-							<li><a href="#">Boats</a>
-							</li>
-							<li><a href="#">About</a>
-							</li>
-							<li><a href="#">Contact</a>
-							</li>
-							<li><a href="newadpage">New Ad Page</a></li>
-							<li><a href="manageadpage">Manage Ad Page</a></li>
-							<li><a href="monitorpage">Monitor Page</a></li>
-							<li><a href="searchresultpage">Search Result Page</a></li>
-							<li><a href="userprofilepage">User Profile</a></li>
-							<li><a href="vehicledetails">Vehicle Details</a></li>
-						</ul>
-					</div>
-				</div>
-			</nav>
-		</header>
-
-		<!--main content-->
+	<!--main content-->
 		<div id="home-main">
 			<div class="container-fluid" id="home-container">
 				<div id="home-bg">
@@ -95,15 +10,20 @@
 							<div style="position: relative;">
 
 								<h2>FIND VEHICLE</h2>
-								<form action="#" method="get" style="margin: 0;">
+								<form action="search" method="post" style="margin: 0;">
 									<div class="row">
 										<div class="col-md-4 col-sm-12">
 											<div class="hf-label" style="">NAME</div>
 											<div class="hf-select">
-												<select class="selectpicker" title="SELECT NAME" data-width="100%">
-													<option>Hyundai</option>
-													<option>Audi</option>
-													<option>Lamborghini</option>
+												<select name = "make" class="selectpicker" title="SELECT NAME" data-width="100%">
+												<%
+													var rowsMake = ["Hyundai Make-1", "Audi Make-1", "Lamborghini Make-1", "Mercedes Benz Make-1"];
+													for(var i = 0; i < rowsMake.length; i++) {
+												%>
+													<option value = "<%=rowsMake[i]%>"><%=rowsMake[i]%></option>   
+												<%
+													}
+												%>
 												</select>
 											</div>
 
@@ -111,119 +31,174 @@
 										<div class="col-md-4 col-sm-12">
 											<div class="hf-label">MODEL</div>
 											<div class="hf-select">
-												<select class="selectpicker" title="SELECT MODEL" data-width="100%">
-													<option value="1">ONE</option>
-													<option value="2">TWO</option>
-													<option value="3">THREE</option>
+												<select name = "model" class="selectpicker" title="SELECT MODEL" data-width="100%">
+												<%
+													var rowsModel = ["E 300", "E 500", "E 700"];
+													for(var i = 0; i < rowsModel.length; i++) {
+												%>
+													<option value = "<%=rowsModel[i]%>"><%=rowsModel[i]%></option>   
+												<%
+													}
+												%>
 												</select>
 											</div>
 										</div>
 										<div class="col-md-4 col-sm-12">
 											<div class="hf-label">YEAR</div>
 											<div class="hf-select">
-												<select class="selectpicker" title="SELECT YEAR" data-width="100%">
-													<option value="1">2019</option>
-													<option value="2">2018</option>
-													<option value="3">2017</option>
-													<option value="3">2016</option>
+												<select name = "year" class="selectpicker" title="SELECT YEAR" data-width="100%">
+												<%
+													var rowsYear = ["2019", "2018", "2017", "2016"];
+													for(var i = 0; i < rowsYear.length; i++) {
+												%>
+													<option value = "<%=rowsYear[i]%>"><%=rowsYear[i]%></option>   
+												<%
+													}
+												%>
 												</select>
 											</div>
 										</div>
 										<div class="col-md-4 col-sm-12 advancedf">
 											<div class="hf-label">PRICE</div>
 											<div class="hf-select half">
-												<select class="selectpicker" title="FROM" data-width="100%">
-													<option value="1">2019</option>
-													<option value="2">2018</option>
-													<option value="3">2017</option>
-													<option value="3">2016</option>
+												<select name = "fromPrice" class="selectpicker" title="FROM" data-width="100%">
+												<%
+													var rowsFromPrice = ["1000", "5000", "10000"];
+													for(var i = 0; i < rowsFromPrice.length; i++) {
+												%>
+													<option value = "<%=rowsFromPrice[i]%>"><%=rowsFromPrice[i]%></option>   
+												<%
+													}
+												%>
 												</select>
 											</div>
 											<div class="hf-select half">
-												<select class="selectpicker" title="TO" data-width="100%">
-													<option value="1">2019</option>
-													<option value="2">2018</option>
-													<option value="3">2017</option>
-													<option value="3">2016</option>
+												<select name = "toPrice" class="selectpicker" title="TO" data-width="100%">
+												<%
+													var rowsToPrice = ["50000", "100000", "1000000"];
+													for(var i = 0; i < rowsToPrice.length; i++) {
+												%>
+													<option value = "<%=rowsToPrice[i]%>"><%=rowsToPrice[i]%></option>   
+												<%
+													}
+												%>
 												</select>
 											</div>
 										</div>
 										<div class="col-md-4 col-sm-12 advancedf">
 											<div class="hf-label">YEAR</div>
 											<div class="hf-select half">
-												<select class="selectpicker" title="FROM" data-width="100%">
-													<option value="1">2019</option>
-													<option value="2">2018</option>
-													<option value="3">2017</option>
-													<option value="3">2016</option>
+												<select name = "fromYear" class="selectpicker" title="FROM" data-width="100%">
+												<%
+													var rowsFromYear = ["2019", "2018", "2017", "2016"];
+													for(var i = 0; i < rowsFromYear.length; i++) {
+												%>
+													<option value = "<%=rowsFromYear[i]%>"><%=rowsFromYear[i]%></option>   
+												<%
+													}
+												%>
 												</select>
 											</div>
 											<div class="hf-select half">
-												<select class="selectpicker" title="TO" data-width="100%">
-													<option value="1">2019</option>
-													<option value="2">2018</option>
-													<option value="3">2017</option>
-													<option value="3">2016</option>
+												<select name = "toYear" class="selectpicker" title="TO" data-width="100%">
+												<%
+													var rowsToYear = ["2019", "2018", "2017", "2016"];
+													for(var i = 0; i < rowsToYear.length; i++) {
+												%>
+													<option value = "<%=rowsToYear[i]%>"><%=rowsToYear[i]%></option>   
+												<%
+													}
+												%>
 												</select>
 											</div>
 										</div>
 										<div class="col-md-4 col-sm-12 advancedf">
 											<div class="hf-label">SELLER</div>
 											<div class="hf-select">
-												<select class="selectpicker" title="SELECT SELLER" data-width="100%">
-													<option value="1">ONE</option>
-													<option value="2">TWO</option>
-													<option value="3">THREE</option>
+												<select name = "seller" class="selectpicker" title="SELECT SELLER" data-width="100%">
+												<%
+													var rowsSeller = ["no field"];
+													for(var i = 0; i < rowsSeller.length; i++) {
+												%>
+													<option value = "<%=rowsSeller[i]%>"><%=rowsSeller[i]%></option>   
+												<%
+													}
+												%>
 												</select>
 											</div>
 										</div>
 										<div class="col-md-4 col-sm-12 advancedf">
 											<div class="hf-label">ENGINE</div>
 											<div class="hf-select">
-												<select class="selectpicker" title="SELECT ENGINE" data-width="100%">
-													<option value="1">ONE</option>
-													<option value="2">TWO</option>
-													<option value="3">THREE</option>
+												<select name = "engine" class="selectpicker" title="SELECT ENGINE" data-width="100%">
+												<%
+													var rowsEngine = ["One", "Two", "Three"];
+													for(var i = 0; i < rowsEngine.length; i++) {
+												%>
+													<option value = "<%=rowsEngine[i]%>"><%=rowsEngine[i]%></option>   
+												<%
+													}
+												%>
 												</select>
 											</div>
 										</div>
 										<div class="col-md-4 col-sm-12 advancedf">
 											<div class="hf-label">CITY</div>
 											<div class="hf-select">
-												<select class="selectpicker" title="SELECT CITY" data-width="100%">
-													<option value="1">ONE</option>
-													<option value="2">TWO</option>
-													<option value="3">THREE</option>
+												<select name = "city" class="selectpicker" title="SELECT CITY" data-width="100%">
+												<%
+													var rowsCity = ["no field"];
+													for(var i = 0; i < rowsCity.length; i++) {
+												%>
+													<option value = "<%=rowsCity[i]%>"><%=rowsCity[i]%></option>   
+												<%
+													}
+												%>
 												</select>
 											</div>
 										</div>
 										<div class="col-md-4 col-sm-12 advancedf">
 											<div class="hf-label">COLOR</div>
 											<div class="hf-select">
-												<select class="selectpicker" title="SELECT COLOR" data-width="100%">
-													<option value="1">ONE</option>
-													<option value="2">TWO</option>
-													<option value="3">THREE</option>
+												<select name = "color" class="selectpicker" title="SELECT COLOR" data-width="100%">
+												<%
+													var rowsColor = ["Red", "Green", "Blue"];
+													for(var i = 0; i < rowsColor.length; i++) {
+												%>
+													<option value = "<%=rowsColor[i]%>"><%=rowsColor[i]%></option>   
+												<%
+													}
+												%>
 												</select>
 											</div>
 										</div>
 										<div class="col-md-4 col-sm-12 advancedf">
 											<div class="hf-label">TRANSMISSION</div>
 											<div class="hf-select">
-												<select class="selectpicker" title="SELECT TRANSMISSION" data-width="100%">
-													<option value="1">ONE</option>
-													<option value="2">TWO</option>
-													<option value="3">THREE</option>
+												<select name = "trans" class="selectpicker" title="SELECT TRANSMISSION" data-width="100%">
+												<%
+													var rowsTrans = ["Automatic", "Automatic-2", "Automatic-3"];
+													for(var i = 0; i < rowsTrans.length; i++) {
+												%>
+													<option value = "<%=rowsTrans[i]%>"><%=rowsTrans[i]%></option>   
+												<%
+													}
+												%>
 												</select>
 											</div>
 										</div>
 										<div class="col-md-4 col-sm-12 advancedf">
 											<div class="hf-label">FUEL TYPE</div>
 											<div class="hf-select">
-												<select class="selectpicker" title="SELECT FUEL TYPE" data-width="100%">
-													<option value="1">ONE</option>
-													<option value="2">TWO</option>
-													<option value="3">THREE</option>
+												<select name = "fuel" class="selectpicker" title="SELECT FUEL TYPE" data-width="100%">
+												<%
+													var rowsFuel = ["Gasoline", "Gasoline-2", "Gasoline-3"];
+													for(var i = 0; i < rowsFuel.length; i++) {
+												%>
+													<option value = "<%=rowsFuel[i]%>"><%=rowsFuel[i]%></option>   
+												<%
+													}
+												%>
 												</select>
 											</div>
 										</div>
@@ -231,11 +206,15 @@
 											<div class="hf-label">CONDITION
 											</div>
 											<div class="hf-select">
-												<select class="selectpicker" title="SELECT CONDITION
-" data-width="100%">
-													<option value="1">ONE</option>
-													<option value="2">TWO</option>
-													<option value="3">THREE</option>
+												<select name = "condition" class="selectpicker" title="SELECT CONDITION" data-width="100%">
+												<%
+													var rowsCondition = ["no field"];
+													for(var i = 0; i < rowsCondition.length; i++) {
+												%>
+													<option value = "<%=rowsCondition[i]%>"><%=rowsCondition[i]%></option>   
+												<%
+													}
+												%>
 												</select>
 											</div>
 										</div>
@@ -259,30 +238,7 @@
 	</div>
 	</div>
 
-	<footer>
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12 col-sm-12">
-					<div class="clearfix">
-						<ul id="footer-links">
-							<li><a href="">Home</a> |
-							</li>
-							<li><a href="#"> Cars</a> |
-							</li>
-							<li><a href="#"> Boats</a> |
-							</li>
-							<li><a href="#"> About</a> |
-							</li>
-							<li><a href="#"> Contact</a> 
-							</li>
-						</ul>
-						<div id="footer-right">© 2019 BUYANYCARONLINE</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</footer>
-
+	
 	<div class="modal fade" id="loginPopup">
 		<div class="modal-dialog" style="max-width: 350px;">
 			<div class="modal-content popup-form">
@@ -344,6 +300,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.bundle.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.5/js/bootstrap-select.min.js"></script>
+
 	<script>
 		function menuFunction() {
 			var x = document.getElementById("mainMenu-links");
@@ -353,8 +310,7 @@
 				x.className = "clearfix";
 			}
 		}
-	</script>
-	<script>
+	
 		function homeAdvanced() {
 			
 			var x = document.getElementById("home-form");
@@ -367,7 +323,4 @@
 		}
 	</script>
 
-</body>
-
-
-</html>
+<%- include('layouts/footer'); %>

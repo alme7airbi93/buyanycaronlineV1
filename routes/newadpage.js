@@ -7,18 +7,6 @@ router.get('/', function(req, res, next) {
     res.redirect('/newadpage/new');
 });
 
-var config = {
-    apiKey: "AIzaSyB7IAjdsna6Rms_GXT_mQ46I8cbh6wnSyQ",
-    authDomain: "caronline-daf98.firebaseapp.com",
-    databaseURL: "https://caronline-daf98.firebaseio.com",
-    projectId: "caronline-daf98",
-    storageBucket: "caronline-daf98.appspot.com",
-    messagingSenderId: "631041197933",
-    appId: "1:631041197933:web:eb5ce14f4561415c"
-};
-
-firebase.initializeApp(config);
-
 router.get('/new', function(req, res, next) {
     
     res.render('newadpage/new', { title: 'Buyanycaronline : New Ad Page' });
