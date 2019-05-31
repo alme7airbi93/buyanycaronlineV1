@@ -6,27 +6,83 @@
 				<div class="row">
 					<div id="adInfoBox-container">
 						<div id="adInfo-box">
-								<div><span>Ad Number: </span> 12</div>
-								<div><span>Created Date: </span> 7th January 2019</div>
-								<div><span>Price:</span> 130,000 AED<i class="fa fa-pencil" aria-hidden="true"></i></div>
+								<input id = "ad_id" type = "hidden" value = "<%=row.id%>" />
+								<div><span>Ad Number: </span><%=row.number%></div>
+								<div><span>Created Date: </span><%=row.makedate%></div>
+								<div>
+									<div>
+										<span>Price: </span><a><%=row.price%></a><i class="fa fa-pencil" aria-hidden="true"></i>
+									</div>
+									<div class = "d-none">
+										<input id = "price" class = "ba-input" type = "text" placeholder = "Enter price">
+										<i class="fa fa-check" aria-hidden="true"></i>
+									</div>
+								</div>
 								<div class="hf-label">Vehicle Details</div>
-								<div><span>Make: </span> Mercedes Benz</div>
-								<div><span>Model: </span> E300</div>
-								<div><span>Year:</span> 2017</div>
-								<div><span>Transmission:</span> Automatic</div>
-								<div><span>Fuel:</span> Gasoline
-								</div><div><span>Description: </span>
-								<br>The car is brand new condition well maintained 
-								Used as second car driven on weekends
-								Always parked in covered private parking
+								<div>
+									<div>
+										<span>Make: </span><a><%=row.make%></a><i class="fa fa-pencil" aria-hidden="true"></i>
+									</div>
+									<div class = "d-none">
+										<input id = "make" class = "ba-input" type = "text" placeholder = "Enter make">
+										<i class="fa fa-check" aria-hidden="true"></i>
+									</div>
+								</div>
+								<div>
+									<div>
+										<span>Model: </span><a><%=row.model%></a><i class="fa fa-pencil" aria-hidden="true"></i>
+									</div>
+									<div class = "d-none">
+										<input id = "model" class = "ba-input" type = "text" placeholder = "Enter model">
+										<i class="fa fa-check" aria-hidden="true"></i>
+									</div>
+								</div>
+								<div>
+									<div>
+										<span>Year: </span><a><%=row.year%></a><i class="fa fa-pencil" aria-hidden="true"></i>
+									</div>
+									<div class = "d-none">
+										<input id = "year" class = "ba-input" type = "text" placeholder = "Enter year">
+										<i class="fa fa-check" aria-hidden="true"></i>
+									</div>
+								</div>
+								<div>
+									<div>
+										<span>Transmission: </span><a><%=row.trans%></a><i class="fa fa-pencil" aria-hidden="true"></i>
+									</div>
+									<div class = "d-none">
+										<input id = "transmission" class = "ba-input" type = "text" placeholder = "Enter transmission">
+										<i class="fa fa-check" aria-hidden="true"></i>
+									</div>
+								</div>
+								<div>
+									<div>
+										<span>Fuel: </span><a><%=row.fuel%></a><i class="fa fa-pencil" aria-hidden="true"></i>
+									</div>
+									<div class = "d-none">
+										<input id = "fuel" class = "ba-input" type = "text" placeholder = "Enter fuel">
+										<i class="fa fa-check" aria-hidden="true"></i>
+									</div>
+								</div>
+								<div>
+									<div>
+										<span>Description: <br></span><a><%=row.description%></a><!--<i class="fa fa-pencil" aria-hidden="true"></i>-->
+									</div>
+									<!--<div class = "d-none">
+										<input rows = 7 id = "description" class = "ba-input2" type = "text" placeholder = "Enter description">
+										<i class="fa fa-check" aria-hidden="true"></i>
+									</div>-->
 								</div>
 								
 								<div><span>Features: </span>
 									<br><ul>
-									<li>4 Wheel Drive</li>
-									<li> Cruise Control</li>
-									<li>Bluetooth System</li>
-									<li>Air Conditioner</li>
+									<% 
+									var features = "4 Wheel Drive, Cruise Control, Bluetooth System, Air Conditioner";
+									var arr = features.split(",");
+									for(var i = 0; i < arr.length; i++) {
+									%>
+										<li><%=arr[i]%></li>
+									<% } %>
 									</ul>
 								</div>
 								<button type="submit" class="button" id="hf-button">Update</button>
@@ -40,31 +96,31 @@
 							<div id="PhotoBoxItem-container">
 								<div class="PhotoBox-item">
 									<div class="PhotoBox-image">
-										<img src="/assets/img/1-car1.jpeg">
+										<img src="<%=row.img1%>">
 									</div>
 									<button class="PhotoBox-delete">Delete</button>
 								</div>
 								<div class="PhotoBox-item">
 									<div class="PhotoBox-image">
-										<img src="/assets/img/1-car2.jpeg">
+										<img src="<%=row.img2%>">
 									</div>
 									<button class="PhotoBox-delete">Delete</button>
 								</div>
 								<div class="PhotoBox-item">
 									<div class="PhotoBox-image">
-										<img src="/assets/img/1-car3.jpeg">
+										<img src="<%=row.img3%>">
 									</div>
 									<button class="PhotoBox-delete">Delete</button>
 								</div>
 								<div class="PhotoBox-item">
 									<div class="PhotoBox-image">
-										<img src="/assets/img/1-car4.jpeg">
+										<img src="<%=row.img4%>">
 									</div>
 									<button class="PhotoBox-delete">Delete</button>
 								</div>
 							</div>
 							<div id="PhotoBox-preview">
-								<img src="/assets/img/1-car1.jpeg">
+								<img src="<%=row.img1%>">
 							</div>
 						</div>
 					</div>
@@ -86,6 +142,45 @@
 				x.className = "clearfix";
 			}
 		}
+
+		$(".ba-input").change(function() {
+				
+			var ad_id = $("#ad_id").val();
+			var fname = $(this).attr('id');
+			var fvalue = $(this).val();
+
+			$(this).parent("div").prev().find("a").text(fvalue);
+			$(".fa-check").click();
+			
+			console.log(ad_id);
+			$.ajax({
+				dataType: 'json',
+				type:'POST',
+				url: "/manageadpage/updatead",
+				data:{ad_id:ad_id, fname:fname, fvalue:fvalue}
+			}).done(function(data){
+				//toastr.success('Created Successfully.', 'Success Alert', {timeOut: altTimeOut});
+			});
+
+		});
+		
+		$(".fa-pencil").click(function() {
+			$(this).parent("div").removeClass("d-block");
+			$(this).parent("div").addClass("d-none");
+
+			$(this).parent("div").next().removeClass("d-none");
+			$(this).parent("div").next().addClass("d-block");
+			$(this).parent("div").next().find("input").focus();
+		});
+		
+		$(".fa-check").click(function() {
+			$(this).parent("div").removeClass("d-block");
+			$(this).parent("div").addClass("d-none");
+
+			$(this).parent("div").prev().removeClass("d-none");
+			$(this).parent("div").prev().addClass("d-block");
+		})
+		
 	</script>
 
 <%- include('../layouts/footer'); %>

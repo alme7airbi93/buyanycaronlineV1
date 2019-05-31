@@ -6,27 +6,70 @@
 				<div class="row">
 					<div id="AccSettingsBox-container">
 						<div id="AccSettings-box">
-							<h2>Accoount Settings</h2>
+							<h2>Account Settings</h2>
 							<div style="margin-top: 20px;">
-								<div><span>Email: </span>
-									user@gmail.com<i class="fa fa-pencil" aria-hidden="true"></i>
+								<input id = "userid" type = "hidden" value = "<%=user.id%>" />
+								<div>
+									<div>
+										<span>Email: </span><a><%=user.email%></a><i class="fa fa-pencil" aria-hidden="true"></i>
+									</div>
+									<div class = "d-none">
+										<input id = "email" class = "ba-input" type = "text" placeholder = "Enter email address">
+										<i class="fa fa-check" aria-hidden="true"></i>
+									</div>
 								</div>
-								<div><span>Password: </span>
-									******<i class="fa fa-pencil" aria-hidden="true"></i>
+								
+								<div>
+									<div>
+										<span>Password: </span><a><%=user.password%></a><i class="fa fa-pencil" aria-hidden="true"></i>
+									</div>
+									<div class = "d-none">
+										<input id = "password" class = "ba-input" type = "text" placeholder = "Enter password">
+										<i class="fa fa-check" aria-hidden="true"></i>
+									</div>
 								</div>
+								
 								<div class="hf-label">ADDRESS</div>
-								<div><span>Country: </span>
-									UAE<i class="fa fa-pencil" aria-hidden="true"></i>
+								<div>
+									<div>
+										<span>Country: </span><a><%=user.country%></a><i class="fa fa-pencil" aria-hidden="true"></i>
+									</div>
+									<div class = "d-none">
+										<input id = "country" class = "ba-input" type = "text" placeholder = "Enter country">
+										<i class="fa fa-check" aria-hidden="true"></i>
+									</div>
 								</div>
-								<div><span>City: </span>
-									Abu Dhabi<i class="fa fa-pencil" aria-hidden="true"></i>
+								
+								<div>
+									<div>
+										<span>City: </span><a><%=user.city%></a><i class="fa fa-pencil" aria-hidden="true"></i>
+									</div>
+									<div class = "d-none">
+										<input id = "city" class = "ba-input" type = "text" placeholder = "Enter city">
+										<i class="fa fa-check" aria-hidden="true"></i>
+									</div>
 								</div>
-								<div><span>Street: </span> 
-									Main road<i class="fa fa-pencil" aria-hidden="true"></i>
+								
+								<div>
+									<div>
+										<span>Street: </span><a><%=user.street%></a><i class="fa fa-pencil" aria-hidden="true"></i>
+									</div>
+									<div class = "d-none">
+										<input id = "street" class = "ba-input" type = "text" placeholder = "Enter street">
+										<i class="fa fa-check" aria-hidden="true"></i>
+									</div>
 								</div>
+									
 								<div class="hf-label">Contact details</div>
-								<div><span>Mobile: </span>
-									9711231234<i class="fa fa-pencil" aria-hidden="true"></i>
+
+								<div>
+									<div>
+										<span>Mobile: </span><a><%=user.mobile%></a><i class="fa fa-pencil" aria-hidden="true"></i>
+									</div>
+									<div class = "d-none">
+										<input id = "mobile" class = "ba-input" type = "text" placeholder = "Enter mobile number">
+										<i class="fa fa-check" aria-hidden="true"></i>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -34,59 +77,34 @@
 					<div id="manageAdsBox-container">
 						<div id="manageAds-box">
 							<h2>Manage Ads</h2>
-							
-							<div class="manageAdsItem">
-								<div class="manageAdsItem-left">
-									<span>Ad Number: </span>12
-									<div><span>Title: </span>Mercedes Benz- E300</div>
-									<div><span>Created Date: </span>7th January 2019</div>
-								</div>
-								<div class="manageAdsItem-right">
-									<button>Mark as sold</button>
-									<button>Modify</button>
-								</div>
-							</div>
-							<div class="manageAdsItem">
-								<div class="manageAdsItem-left">
-									<span>Ad Number: </span>13
-									<div><span>Title: </span>Mercedes Benz- E300</div>
-									<div><span>Created Date: </span>7th January 2019</div>
-								</div>
-								<div class="manageAdsItem-right">
-									<button>Mark as sold</button>
-									<button>Modify</button>
-								</div>
-							</div>
-							<div class="manageAdsItem">
-								<div class="manageAdsItem-left">
-									<span>Ad Number: </span>14
-									<div><span>Title: </span>Mercedes Benz- E300</div>
-									<div><span>Created Date: </span>7th January 2019</div>
-								</div>
-								<div class="manageAdsItem-right">
-									<button>Mark as sold</button>
-									<button>Modify</button>
-								</div>
-							</div>
-							<div class="manageAdsItem">
-								<div class="manageAdsItem-left">
-									<span>Ad Number: </span>15
-									<div><span>Title: </span>Mercedes Benz- E300</div>
-									<div><span>Created Date: </span>7th January 2019</div>
-								</div>
-								<div class="manageAdsItem-right">
-									<button>Mark as sold</button>
-									<button>Modify</button>
-								</div>
-							</div>
-
+							<%
+								for(var i = 0; i < rows.length; i++) {
+							%>
+								<div class="manageAdsItem">
+									<div class="manageAdsItem-left">
+										<span>Ad Number: </span><%=rows[i].number%>
+										<div><span>Title: </span><%=rows[i].title%></div>
+										<div><span>Created Date: </span><%=rows[i].createdate%></div>
+									</div>
+									<div class="manageAdsItem-right">
+										<button>Mark as sold</button>
+										<a href = "/manageadpage/list/<%=rows[i].id%>">
+											<button>Modify</button>
+										</a>
+									</div>
+								</div>	
+							<%
+								}
+							%>
 						</div>
 					</div>
 					<div id="NewAdBox-container">
 						<div id="NewAd-box">
 							<h2>New Ad?</h2>
-							<button type="submit" class="button">
+							<a href = "/newadpage/list/<%=user.id%>">
+								<button type="submit" class="button">
 								<i class="fa fa-plus-square" aria-hidden="true"></i> Click here</button>
+							</a>
 						</div>
 
 					</div>
@@ -106,6 +124,44 @@
 					x.className = "clearfix";
 				}
 			}
+			
+			$(".ba-input").change(function() {
+				
+				var userid = $("#userid").val();
+				var fname = $(this).attr('id');
+				var fvalue = $(this).val();
+
+				$(this).parent("div").prev().find("a").text(fvalue);
+				$(".fa-check").click();
+
+				$.ajax({
+					dataType: 'json',
+					type:'POST',
+					url: "/userprofilepage/updateuser",
+					data:{userid:userid, fname:fname, fvalue:fvalue}
+				}).done(function(data){
+					//toastr.success('Created Successfully.', 'Success Alert', {timeOut: altTimeOut});
+				});
+
+			});
+			
+			$(".fa-pencil").click(function() {
+				$(this).parent("div").removeClass("d-block");
+				$(this).parent("div").addClass("d-none");
+
+				$(this).parent("div").next().removeClass("d-none");
+				$(this).parent("div").next().addClass("d-block");
+				$(this).parent("div").next().find("input").focus();
+			});
+			
+			$(".fa-check").click(function() {
+				$(this).parent("div").removeClass("d-block");
+				$(this).parent("div").addClass("d-none");
+
+				$(this).parent("div").prev().removeClass("d-none");
+				$(this).parent("div").prev().addClass("d-block");
+			})
+
 		</script>
 
 <%- include('../layouts/footer'); %>

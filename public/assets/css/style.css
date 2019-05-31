@@ -9,6 +9,28 @@ body {
 	font-size: 14px;
 	line-height: 22px;
 }
+
+.ba-input {
+	width:90%;
+	border:0px;
+	border-bottom:1px solid rgba(255, 255, 255, .8);
+	background:black;
+	color:white;
+	line-height:10px;
+}
+
+.ba-input::placeholder {
+	color:  rgba(255, 255, 255, .8);
+}
+
+.ba-textarea {
+	width:90%;
+	border:1px solid rgba(255, 255, 255, .5);
+	background:black;
+	color:white;
+	line-height:15px;
+}
+
 a,
 button {
 	transition: all .25s ease;
