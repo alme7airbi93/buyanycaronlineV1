@@ -1,0 +1,150 @@
+<!--main content-->
+<div class="main-content-wrapper">
+	<div class="container" id="nap-container">
+		<div class="row">
+			<form [formGroup]="newForm" id = "newForm" method="post">
+				<div id="vehicleDetailsBox-container">
+					<div id="vehicleDetails-box">
+						<div class="row">
+							<div class="col-md-12 col-sm-12">
+								<h2>Ad Details</h2>
+							</div>
+							<div class="col-md-12 col-sm-12">
+								<div class="hf-label" style="">TITLE</div>
+								<input formControlName = "title" class = "ad-input" type = "text" placeholder = "Enter title"/>
+							</div>
+							<div class="col-md-12 col-sm-12">
+								<div class="hf-label" style="">PRICE</div>
+								<input formControlName = "price" class = "ad-input" type = "text" placeholder = "Enter price"/>
+							</div>
+							<div class="col-md-12 col-sm-12">
+								<div class="hf-label" style="">DESCRIPTION</div>
+								<div class="hf-select">
+									<textarea formControlName="description" cols="30" rows="10" aria-invalid="false" placeholder="Enter description" class="ad-input" id = "description"></textarea>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="vehicleDetailsBox2-container">
+					<div id="vehicleDetails-box">
+						<div class="row">
+							<div class="col-md-12 col-sm-12">
+								<h2>Vehicle Details</h2>
+							</div>
+							<div class="col-md-12 col-sm-12">
+								<div class="hf-label" style="">MAKE</div>
+								<div class="hf-select">
+									<select formControlName = "make_id" class = "selectpicker" (change) = "onMakeChange($event)" title="SELECT NAME" data-width="100%">
+										<option *ngFor =  "let make of makes" [value] = "make.id">{{make.value}}</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-12 col-sm-12">
+								<div class="hf-label">MODEL</div>
+								<div class="hf-select">
+									<select formControlName = "model_id" class="selectpicker" title="SELECT MODEL" data-width="100%">
+										<option *ngFor="let model of models" [value]="model.id" >{{model.modelvalue}}</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-12 col-sm-12">
+								<div class="hf-label">YEAR</div>
+								<div class="hf-select">
+									<select formControlName = "year" class="selectpicker" title="SELECT YEAR" data-width="100%">
+										<option *ngFor="let year of years" [value]="year" >{{year}}</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-12 col-sm-12">
+								<div class="hf-label">FUEL TYPE</div>
+								<div class="hf-select">
+									<select formControlName = "fueltype" class="selectpicker" title="SELECT FUELTYPE" data-width="100%">
+										<option *ngFor="let fueltype of fueltypes" [value]="fueltype.id" >{{fueltype.value}}</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-12 col-sm-12">
+								<div class="hf-label">CONDITION
+								</div>
+								<div class="hf-select">
+									<select formControlName = "condition" class="selectpicker" title="SELECT CONDITION" data-width="100%">
+										<option *ngFor="let condition of conditions" [value]="condition.id" >{{condition.value}}</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-12 col-sm-12">
+								<div class="hf-label">TRANSMISSION</div>
+								<div class="hf-select">
+									<select formControlName = "transmission" class="selectpicker" title="SELECT TRANSMISSION" data-width="100%">
+										<option *ngFor="let transmission of transmissions" [value]="transmission.id" >{{transmission.value}}</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-12 col-sm-12">
+								<div class="hf-label">COLOR</div>
+								<div class="hf-select">
+									<select formControlName = "color" class="selectpicker" title="SELECT COLOR" data-width="100%">
+										<option *ngFor="let color of colors" [value]="color.id" >{{color.value}}</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-12 col-sm-12">
+								<div class="hf-label">Features</div>
+								<label class="hf-checkbox" *ngFor="let feature of features">
+									<input type="checkbox" [value]="feature.id">{{feature.value}}
+								</label>
+							</div>
+							<div class="col-md-12 col-sm-12">
+								<button type="submit" class="button" id="hf-button">Save</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+			<div id="uploadPhotoBox-container" style = "display:block;">
+				<!--<form [formGroup]="uploadForm" 
+					id='uploadForm' 
+					action='/newadpage/upload' 
+					method='post' 
+					encType="multipart/form-data">
+						<input type="file" name="img1File" />
+						<input type='submit' value='Upload!' />
+				</form>-->
+				<!--
+					<form (ngSubmit)="onSubmit()">
+						<div class="form-group">
+							<input type="file" name="image"  />
+						</div>
+						<div class="form-group">
+							<button class="btn btn-primary">Submit</button>
+						</div>
+					</form>
+				-->
+				<div id="uploadPhoto-box"  style = "display:block;">
+					<div style="border-bottom: 1px solid #2f3c40;">
+						<h2>Upload Photos</h2>
+						<div>
+							<form [formGroup]="uploadForm" (ngSubmit)="onUploadSubmit()">
+								<div class="custom-file col-md-8">
+									<input type="file" class="custom-file-input" name="carimg" (change)="onFileChange($event)">
+									<label class="custom-file-label" for="customFile">Choose file</label>
+								</div>
+								<button class="col-md-4 pt-2 uploadPhotoBox-uploadButton" type="submit">Upload</button>
+							</form>							
+						</div>
+					</div>
+					<div id="uploadPhotoBoxItem-container">
+						
+					</div>
+					<div id="uploadPhotoBox-preview">
+						<img *ngIf = "imgfile" src="{{imgfile}}">
+					</div>
+				</div>
+				<div id="publishButton-container">
+					<button id="publishButton">Publish</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

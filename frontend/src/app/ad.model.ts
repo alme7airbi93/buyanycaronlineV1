@@ -1,7 +1,10 @@
-export class CarModel {
-    _id             : String;
-    customer_id     : String;
-    price           : Number;
-    title           : String;
-    description     : String;
+export class AdModel {
+    id          : string;
+    user_id     : string;
+    title       : string;
+    description : string;
+    price       : number;
+    city        : string;
+    no          : number;
+    approve     : number;
 }

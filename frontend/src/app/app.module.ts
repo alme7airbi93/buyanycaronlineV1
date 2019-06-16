@@ -8,17 +8,29 @@ import { AppComponent } from './app.component';
 
 import { CarService } from './car.service';
 
-import { CarDetailsComponent } from './cardetails/cardetails.component';
+import { IndexComponent } from './index/index.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { NewAdComponent }       from './new-ad/new-ad.component';
+import { ManageAdComponent } from './manage-ad/manage-ad.component';
+import { CarSearchComponent } from './car-search/car-search.component';
+import { CarDetailComponent } from './car-detail/car-detail.component';
+import { MonitorPageComponent } from './monitor-page/monitor-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CarDetailsComponent
+    IndexComponent,
+    UserProfileComponent,
+    NewAdComponent,
+    ManageAdComponent,
+    CarSearchComponent,
+    CarDetailComponent,
+    MonitorPageComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     HttpClientModule,
+    AppRoutingModule,
     ReactiveFormsModule
   ],
   providers: [

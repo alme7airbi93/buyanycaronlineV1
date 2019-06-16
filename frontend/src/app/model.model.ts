@@ -1,5 +1,5 @@
 export class ModelModel {
-    id         : String;
-    make_id     : String;
-    modelvalue  : String;
+    id          : string;
+    make_id     : string;
+    modelvalue  : string;
 }

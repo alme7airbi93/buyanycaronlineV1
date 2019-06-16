@@ -1,0 +1,153 @@
+<!--main content-->
+<div class="main-content-wrapper">
+	<div class="container" id="map-container">
+		<div class="row">
+			<div id="adInfoBox-container">
+				<div id="adInfo-box">
+						<input id = "ad_id" type = "hidden" value = "{{car.ad_id}}" />
+						<input id = "vehicle_id" type = "hidden" value = "{{car.vehicle_id}}" />
+						<input id = "car_id" type = "hidden" value = "{{car.id}}" />
+						<div>
+							<div>
+								<span>Title: </span><a>{{car.title}}</a><i class="fa fa-pencil" aria-hidden="true"></i>
+							</div>
+							<div class = "d-none">
+								<input id = "title" class = "ba-input" type = "text" placeholder = "Enter title">
+								<i class="fa fa-check" aria-hidden="true"></i>
+							</div>
+						</div>
+						<div>
+							<div>
+								<span>Price: </span><a>{{car.price | currency}}</a><i class="fa fa-pencil" aria-hidden="true"></i>
+							</div>
+							<div class = "d-none">
+								<input id = "price" class = "ba-input" type = "text" placeholder = "Enter price">
+								<i class="fa fa-check" aria-hidden="true"></i>
+							</div>
+						</div>
+						<div>
+							<div style = "">
+								<span>Description: </span><a>{{car.description}}</a><i class="fa fa-pencil" aria-hidden="true"></i>
+							</div>
+							<div class = "d-none">
+								<input id = "description" class = "ba-input" type = "text" placeholder = "Enter description">
+								<i class="fa fa-check" aria-hidden="true"></i>
+							</div>
+						</div>
+						<div class="hf-label">Vehicle Details</div>
+						<div>
+							<div>
+								<input id = "make" type = "hidden" value = "{{car.make_id}}" />
+								<span>Make: </span><a>{{car.make}}</a><i class="fa fa-pencil" aria-hidden="true"></i>
+							</div>
+							<div class = "d-none">
+								<select id = "make_id" class="ba-input" title="SELECT MAKE" data-width="100%">
+									<option *ngFor="let make of makes" [value]="make.id" >{{make.value}}</option>
+								</select>
+								<i class="fa fa-check" aria-hidden="true"></i>
+							</div>
+						</div>
+						<div>
+							<div>
+								<input id = "model" type = "hidden" value = "{{car.model_id}}" />
+								<span>Model: </span><a>{{car.model}}</a><i class="fa fa-pencil" aria-hidden="true"></i>
+							</div>
+							<div class = "d-none">
+								<select id = "model_id" class="ba-input" title="SELECT MODEL" data-width="100%">
+									<option *ngFor="let model of models" [value]="model.id" >{{model.modelvalue}}</option>
+								</select>
+								<i class="fa fa-check" aria-hidden="true"></i>
+							</div>
+						</div>
+						<div>
+							<div>
+								<span>Year: </span><a>{{car.year}}</a><i class="fa fa-pencil" aria-hidden="true"></i>
+							</div>
+							<div class = "d-none">
+								<input id = "year" class = "ba-input" type = "text" placeholder = "Enter year">
+								<i class="fa fa-check" aria-hidden="true"></i>
+							</div>
+						</div>
+						<div>
+							<div>
+								<span>Transmission: </span><a>{{car.transmission}}</a><i class="fa fa-pencil" aria-hidden="true"></i>
+							</div>
+							<div class = "d-none">
+								<input id = "transmission" class = "ba-input" type = "text" placeholder = "Enter transmission">
+								<i class="fa fa-check" aria-hidden="true"></i>
+							</div>
+						</div>
+						<div>
+							<div>
+								<span>Fuel Type: </span><a>{{car.fueltype}}</a><i class="fa fa-pencil" aria-hidden="true"></i>
+							</div>
+							<div class = "d-none">
+								<input id = "fueltype" class = "ba-input" type = "text" placeholder = "Enter fueltype">
+								<i class="fa fa-check" aria-hidden="true"></i>
+							</div>
+						</div>
+						<div class = "d-none">
+							<div>
+								<span>Description: <br></span><a>{{car.description}}</a><!--<i class="fa fa-pencil" aria-hidden="true"></i>-->
+							</div>
+							<!--<div class = "d-none">
+								<input rows = 7 id = "description" class = "ba-input2" type = "text" placeholder = "Enter description">
+								<i class="fa fa-check" aria-hidden="true"></i>
+							</div>-->
+						</div>
+						
+						<!--<div><span>Features: </span>
+							<br><ul>
+							<% 
+							var features = "4 Wheel Drive, Cruise Control, Bluetooth System, Air Conditioner";
+							var arr = features.split(",");
+							for(var i = 0; i < arr.length; i++) {
+							}}
+								<li>{{arr[i]}}</li>
+							<% } }}
+							</ul>
+						</div>
+						<button type="submit" class="button" id="hf-button">Update</button>-->
+				</div>
+			</div>
+			<div id="PhotoBox-container">
+				<div id="Photo-box">
+					<div style="border-bottom: 1px solid #2f3c40;">
+						<h2>Photos</h2>
+					</div>
+					<div id="PhotoBoxItem-container">
+						<div class="PhotoBox-item">
+							<div class="PhotoBox-image">
+								<img *ngIf = "car.id" src="{{'assets/uploads/cars/' + car.id + '-1.jpg'}}">
+							</div>
+							<button class="PhotoBox-delete">Delete</button>
+						</div>
+						<div class="PhotoBox-item">
+							<div class="PhotoBox-image">
+								<img *ngIf = "car.id" src="{{'assets/uploads/cars/' + car.id + '-2.jpg'}}">
+							</div>
+							<button class="PhotoBox-delete">Delete</button>
+						</div>
+						<div class="PhotoBox-item">
+							<div class="PhotoBox-image">
+								<img *ngIf = "car.id" src="{{'assets/uploads/cars/' + car.id + '-3.jpg'}}">
+							</div>
+							<button class="PhotoBox-delete">Delete</button>
+						</div>
+						<div class="PhotoBox-item">
+							<div class="PhotoBox-image">
+								<img *ngIf = "car.id" src="{{'assets/uploads/cars/' + car.id + '-4.jpg'}}">
+							</div>
+							<button class="PhotoBox-delete">Delete</button>
+						</div>
+					</div>
+					<div id="PhotoBox-preview">
+						<img *ngIf = "car.id" src="{{'assets/uploads/cars/' + car.id + '-4.jpg'}}">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+

@@ -1,0 +1,71 @@
+
+<div class="main-content-wrapper">
+	<div class="container" id="vd-container">
+		<div class="row">
+			<div id="vdBox-container">
+				<div id="vd-box">
+					<div id="vdHeader">
+						<div id="vdHeader-title">{{car.title}}</div>
+						<div><span>Price: </span>{{car.price}}</div>
+						<div><span>Created Date: </span>{{car.year}}</div>
+					<div id="vdViewedHeader">
+						<div><span>Viewed This: </span>{{car.visit}}</div> 
+					</div>
+				</div>
+					
+				<div id="vd-preview">
+					<div id="vd-previewImage">
+						<!--<i id="vd-previewImageLeft" class="fa fa-caret-left" aria-hidden="true" (click)='previewImageLeft()'></i>-->
+						<i id="vd-previewImageLeft" class="fa fa-caret-left" aria-hidden="true"></i>
+						<img src="{{'assets/uploads/cars/' + car.id + '-1.jpg'}}">
+						<!--<i id="vd-previewImageFullScreen" class="fa fa-arrows-alt" aria-hidden="true" (click)="previewImage()"></i>	
+							<i id="vd-previewImageRight" class="fa fa-caret-right" aria-hidden="true" (click)='previewImageRight()'></i>-->
+						<i id="vd-previewImageFullScreen" class="fa fa-arrows-alt" aria-hidden="true"></i>	
+						<i id="vd-previewImageRight" class="fa fa-caret-right" aria-hidden="true"></i>
+					</div>
+						<div id="vdPreviewItems">
+							<div class="vdItem-image">
+								<img src="{{'assets/uploads/cars/' + car.id + '-1.jpg'}}">
+							</div>
+							<div class="vdItem-image">
+								<img src="{{'assets/uploads/cars/' + car.id + '-2.jpg'}}">
+							</div>
+							<div class="vdItem-image">
+								<img src="{{'assets/uploads/cars/' + car.id + '-3.jpg'}}">
+							</div>
+							<div class="vdItem-image">
+								<img src="{{'assets/uploads/cars/' + car.id + '-4.jpg'}}">
+							</div>
+						</div>
+						<div id="vd-info">
+							<div id="vdInfo-innerLeft">					
+								<div><span>Make: </span>{{car.make}}</div>
+								<div><span>Model: </span>{{car.model}}</div>
+								<div><span>Year:</span>{{car.year}}</div>
+								<div><span>Price:</span>{{car.price}}</div>
+								<div><span>Transmission:</span>{{car.transmission}}</div>
+								<div><span>Fuel:</span>{{car.fueltype}}
+							</div>
+								</div>
+							<div id="vdInfo-innerRight">
+								<div><span>Description: </span>
+									{{car.description}}
+								</div>
+								<div><span>Features: </span>
+									<ul>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="imagePopupContainer">
+	<div style="padding-top: 40px;">
+		<i id="closeImagePopupContainer" class="fa fa-times" aria-hidden="true"></i>
+		<img id="popupImage" src="img/car.jpeg">
+	</div>
+</div>

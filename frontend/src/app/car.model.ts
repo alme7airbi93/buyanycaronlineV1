@@ -1,13 +1,14 @@
 export class CarModel {
-    id              : String;
-    vehicle_id      : String;
-    distance        : String;
-    bodytype        : Number;
-    doors           : Number;
-    features        : String;
-    horsepower      : Number;
+    id              : string;
+    vehicle_id      : string;
+    distance        : string;
+    bodytype        : number;
+    doors           : number;
+    features        : string;
+    horsepower      : number;
     transmission    : boolean;
-    color           : String;
-    fueltype        : Number;
-    regionalspecs   : Number;
+    color           : string;
+    fueltype        : number;
+    regionalspecs   : number;
+    imgcount        : number;
 }

@@ -9,6 +9,45 @@ body {
 	font-size: 14px;
 	line-height: 22px;
 }
+.invalid-feedback-div{
+	color:#df1d1d;
+}
+.ba-input {
+	width:90%;
+	border:0px;
+	border-bottom:1px solid rgba(255, 255, 255, .6);
+	background:black;
+	color: rgba(255, 255, 255, .8);
+	line-height:10px;
+	font: normal normal normal 16px/1 FontAwesome;
+}
+
+.ba-input::placeholder {
+	color:  rgba(255, 255, 255, .8);
+}
+
+.ad-input {
+	width:100%;
+	border:0px;
+	border-bottom:1px solid rgba(255, 255, 255, .6);
+	background:black;
+	color: rgba(255, 255, 255, .8);
+	font: normal normal normal 16px/1 FontAwesome;
+}
+
+.ad-input::placeholder {
+	color:  rgba(255, 255, 255, .8);
+}
+
+
+.ba-textarea {
+	width:90%;
+	border:1px solid rgba(255, 255, 255, .5);
+	background:black;
+	color:white;
+	line-height:15px;
+}
+
 a,
 button {
 	transition: all .25s ease;
@@ -122,7 +161,9 @@ button {
 }
 #mainMenu-inner {
 	position: relative;
-	padding: 0 40px
+	padding: 0 40px;
+	width:950px;
+	margin:0 auto;
 }
 #mainMenu-inner:before,
 #mainMenu-inner:after {
@@ -142,6 +183,37 @@ button {
 	right: 20px;
 	transform: skewX(-37deg)
 }
+
+#nav-mainMenu-links {
+	display: block;
+	text-align: center;
+	margin: 0;
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	font-size: 0px;
+}
+#nav-mainMenu-links button {
+	text-transform: uppercase;
+}
+#nav-mainMenu-links .dropdown-menu {
+	background: #df1d1d;
+}
+#nav-mainMenu-links a {
+	cursor:pointer;
+	color: #fff;
+	text-decoration: none;
+	line-height: 16px;
+	font-size: 14px;
+	font-weight: 700;
+	font-family: "Exo 2", sans-serif;
+	text-transform: uppercase;
+	display: block;
+}
+#nav-mainMenu-links a:hover {
+	background: #b01b1c;
+}
+
 #mainMenu-links {
 	display: block;
 	text-align: center;
@@ -483,7 +555,7 @@ footer {
 	text-transform: uppercase;
 	color: rgba(255, 255, 255, .5);
 	font-weight: 700;
-	margin: 10px 0;
+	margin: 5px 0;
 }
 #home-form .hf-select.half {
 	width: 48.5%;
@@ -820,6 +892,7 @@ footer {
 }
 #sr-container .searchResult-info .searchResultInfo-title {
 	font-size: 14px;
+	cursor:pointer;
 	display: inline-block;
 	color:#fff;
 }
@@ -1100,6 +1173,12 @@ footer {
 	min-height: 1000px;
 	
 }
+#nap-container #vehicleDetailsBox2-container{
+	padding:0 5px;
+	width: 260px;
+	margin-left:265px;
+	position:absolute;
+}
 #nap-container #vehicleDetailsBox-container{
 	padding:0 5px;
 	width: 260px;
@@ -1244,7 +1323,7 @@ footer {
 #nap-container #uploadPhotoBox-container{
 	padding:0 5px;
 	width:100%;
-	padding-left: 265px;
+	margin-left: 530px;
 	
 	opacity:0;
 	transition: all .5s ease;
@@ -1267,7 +1346,26 @@ footer {
 	margin-bottom: 0;
 	display: inline-block;
 }
-#nap-container #uploadPhotoBox-uploadButton {
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+#nap-container .uploadPhotoBox-uploadButton {
     text-transform: uppercase;
     padding: 10px 10px;
     font-weight: 700;
@@ -1519,6 +1617,7 @@ footer {
 }
 #map-container .PhotoBox-image {
 	width: 100%;
+	cursor:pointer;
 	vertical-align: top;
 }
 #map-container .PhotoBox-image img {
@@ -1526,7 +1625,7 @@ footer {
 }
 
 #map-container .PhotoBox-delete{
-      text-transform: uppercase;
+    text-transform: uppercase;
     padding: 8px 10px;
     font-weight: 700;
     color: #fff !important;

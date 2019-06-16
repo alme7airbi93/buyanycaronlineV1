@@ -10,27 +10,29 @@ export class VehicleService {
 
   constructor(private http: HttpClient) { }
 
-  baseurl: string = "http://localhost:3000/";
+  baseurl: string = "http://localhost:3000";
 
-  /*getAllVehicles(){
-    return this.http.get<VehicleModel[]>(this.baseurl + 'Vehicles');
-  }*/
-  
   getVehicleById(id: string){
-    console.log("getVehicle..." + this.baseurl + 'vehicledetails/list' + '/' + id);
-    
-    return this.http.get<VehicleModel[]>(this.baseurl + 'vehicledetails/list' + '/' + id);
+    return this.http.get<VehicleModel>(this.baseurl + '/vehicles/' + id);
   }
 
-  /*addVehicle(vehicle: VehicleModel){
-    return this.http.post(this.baseurl + 'Vehicles', vehicle);
+  getAllVehicle(){
+    return this.http.get<VehicleModel[]>(this.baseurl + '/vehicles');
+  }
+
+  addVehicle(vehicle:VehicleModel){
+    return this.http.post(this.baseurl + '/vehicles', vehicle);
+  }
+
+  updateVehicle(id:string, fname:string, fvalue:string){
+    return this.http.put(this.baseurl + '/vehicles/' + id, {fname:fname, fvalue:fvalue});
   }
 
   deleteVehicle(id: string){
-    return this.http.delete(this.baseurl + 'Vehicles' + '/' + id);
+    return this.http.delete(this.baseurl + '/vehicles/' + id);
   }
 
-  updateVehicle(vehicle: VehicleModel){
-    return this.http.put(this.baseurl + 'Vehicles' + '/' + vehicle.id, vehicle);
-  }*/
+  deleteVehicleByAdId(ad_id: string){
+    return this.http.delete(this.baseurl + '/vehicles/ad/' + ad_id);
+  }
 }

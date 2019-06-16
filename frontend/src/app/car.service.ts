@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
 import { CarModel } from './car.model';
 
 @Injectable({
@@ -10,25 +9,50 @@ export class CarService {
 
   constructor(private http: HttpClient) { }
 
-  baseurl: string = "http://localhost:3000/";
+  baseurl: string = "http://localhost:3000";
 
-  getCarById(id: String){
-    return this.http.get(this.baseurl + 'cardetails/list/' + id);
+  getCarById(id: string){
+    return this.http.get(this.baseurl + '/cars/' + id);
   }
 
-  /*getAllCars(){
-    return this.http.get<CarModel[]>(this.baseurl + 'Cars');
+  getCarByAdId(ad_id: string){
+    console.log(ad_id);
+    return this.http.get(this.baseurl + '/cars/ad/' + ad_id);
   }
   
-  addCar(car: CarModel){
-    return this.http.post(this.baseurl + 'Cars', car);
+  getAllCar(){
+    return this.http.get(this.baseurl + '/cars');
+  }
+  
+  getSearchAllCar(search: any) {
+    return this.http.post(this.baseurl + '/cars/search', search);
   }
 
-  deleteCar(id: String){
-    return this.http.delete(this.baseurl + 'Cars' + '/' + id);
+  getSearchAllCarOnIndex(search: any) {
+    return this.http.post(this.baseurl + '/cars/search-index', search);
+  }
+
+  addCar(car:CarModel){
+    return this.http.post(this.baseurl + '/cars', car);
+  }
+  
+  updateCar(id:string, fname:string, fvalue:string){
+    return this.http.put(this.baseurl + '/cars/' + id, {fname:fname, fvalue:fvalue});
+  }
+
+  deleteCarByVehicleId(vehicle_id: string){
+    return this.http.delete(this.baseurl + '/cars/vehicle/' + vehicle_id);
+  }
+
+  /*addCar(car: CarModel){
+    return this.http.post(this.baseurl + 'Car', car);
+  }
+
+  deleteCar(id: string){
+    return this.http.delete(this.baseurl + 'Car' + '/' + id);
   }
 
   updateCar(car: CarModel){
-    return this.http.put(this.baseurl + 'Cars' + '/' + car.id, car);
+    return this.http.put(this.baseurl + 'Car' + '/' + car.id, car);
   }*/
 }
