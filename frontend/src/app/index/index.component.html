@@ -4,7 +4,7 @@
 			<div id="home-bg">
 				<div id="home-bg-inner">
 					<div id="home-form" class="clearfix">
-						<a href="/new-ad/-Lg0ae0f-ovBtrTVPDIH" id="placeAd"><i class="fa fa-plus-square" aria-hidden="true"></i> Place Ad</a>
+						<a (click) = "onPlaceAd()" id="placeAd"><i class="fa fa-plus-square" aria-hidden="true"></i> Place Ad</a>
 						<div style="position: relative;">
 
 							<h2>FIND VEHICLE</h2>
@@ -64,7 +64,7 @@
 										<div class="hf-label">COLOR</div>
 										<div class="hf-select">
 											<select formControlName = "color" class="selectpicker" title="SELECT COLOR" data-width="100%">
-												<option *ngFor="let color of colors" [value]="color.id" >{{color.value}}</option>
+												<option *ngFor="let color of colors" [value]="color" >{{color}}</option>
 											</select>
 										</div>
 									</div>
@@ -72,7 +72,7 @@
 										<div class="hf-label">TRANSMISSION</div>
 										<div class="hf-select">
 											<select formControlName = "transmission" class="selectpicker" title="SELECT TRANSMISSION" data-width="100%">
-												<option *ngFor="let transmission of transmissions" [value]="transmission.id" >{{transmission.value}}</option>
+												<option *ngFor="let transmission of transmissions" [value]="transmission" >{{transmission}}</option>
 											</select>
 										</div>
 									</div>
@@ -80,7 +80,7 @@
 										<div class="hf-label">FUEL TYPE</div>
 										<div class="hf-select">
 											<select formControlName = "fueltype" class="selectpicker" title="SELECT FUELTYPE" data-width="100%">
-												<option *ngFor="let fueltype of fueltypes" [value]="fueltype.id" >{{fueltype.value}}</option>
+												<option *ngFor="let fueltype of fueltypes" [value]="fueltype" >{{fueltype}}</option>
 											</select>
 										</div>
 									</div>
@@ -89,7 +89,7 @@
 										</div>
 										<div class="hf-select">
 											<select formControlName = "condition" class="selectpicker" title="SELECT CONDITION" data-width="100%">
-												<option *ngFor="let condition of conditions" [value]="condition.id" >{{condition.value}}</option>
+												<option *ngFor="let condition of conditions" [value]="condition" >{{condition}}</option>
 											</select>
 										</div>
 									</div>

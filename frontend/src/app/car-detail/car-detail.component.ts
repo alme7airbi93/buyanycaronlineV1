@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 
-import { CarService } from '../car.service';
+import { CarService } from '../models/car.service';
+import { CommonService }      from '../models/config'
 
 declare var $: any;
 
@@ -16,7 +17,12 @@ export class CarDetailComponent implements OnInit {
   car : any;
   slideIndex : number;
 
-  constructor(private carService: CarService, 
+  imgFiles      : string[];
+  previewImgFile: string;
+  features      : string[];
+
+  constructor(private carService: CarService,
+              private commonService : CommonService,
               private router: Router) { }
   ngOnInit() {
 
@@ -33,29 +39,28 @@ export class CarDetailComponent implements OnInit {
     $(document).ready(function() {
       
       var slideIndex=0;
-      var imageContainer=$(".vdItem-image");
       
-      $(".vdItem-image").click(function() {
+      $("body").on("click", ".vdItem-image", function() {
         var imageSrc= $(this).find('img').attr('src');
         $("#vd-previewImage").find('img').attr('src',imageSrc);
       });
       
       $("#vd-previewImageLeft").click(function() {
         slideIndex-=1;
-        if(slideIndex<0)slideIndex=imageContainer.length-1;
+        if(slideIndex<0)slideIndex=$(".vdItem-image").length-1;
         setImage();
       });
 
       $("#vd-previewImageRight").click(function() {
         slideIndex+=1;
-        if(slideIndex>imageContainer.length-1)slideIndex=0;
+        if(slideIndex>$(".vdItem-image").length-1)slideIndex=0;
         setImage();
       });
 
       $("#vd-previewImageFullScreen").click(function() {
         $("#popupImage").attr('src',$("#vd-previewImage").find('img').attr('src'));
         $("#imagePopupContainer").css('display','block');
-        $("body").css('overflow','hidden');console.log("image");
+        $("body").css('overflow','hidden');
       });
 
       $("#closeImagePopupContainer").click(function() {
@@ -64,15 +69,25 @@ export class CarDetailComponent implements OnInit {
       });
   
       function setImage(){
-        var imageSrc= imageContainer.eq(slideIndex).find('img').attr('src');
+        var imageSrc= $(".vdItem-image").eq(slideIndex).find('img').attr('src');
         $("#vd-previewImage").find('img').attr('src',imageSrc);
       }      
     });
   }
 
   getCarById(id : string){
-    this.carService.getCarById(id).subscribe(data=>{
+    this.carService.getCarById(id).subscribe((data:any)=>{
       this.car = data;
+      let imgFiles = [];
+      this.imgFiles = [];
+      this.previewImgFile = "";
+
+      imgFiles = JSON.parse(data.imgfiles);
+      for(let i = 0; i < imgFiles.length; i++) {
+        this.imgFiles[i] = this.commonService.baseurl + "/uploads/cars/" + imgFiles[i];
+        if(i == 0) this.previewImgFile = this.imgFiles[0];
+      }
+      this.features = JSON.parse(data.features);
     });
   }
 }

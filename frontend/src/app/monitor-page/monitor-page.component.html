@@ -3,7 +3,7 @@
   <div class="container" id="ma-container">
     <div class="row">
       <div id="adListBox-container">
-        <div id="adList-box" style = "height:650px;overflow:auto;">
+        <div id="adList-box">
           <div class="adList-item" *ngFor = "let ad of ads">
             <div class="adList-info">
               <div><span style='cursor:pointer;' (click)="getCarByAdId(ad.id)" >Ad Number: </span>222</div>
@@ -25,7 +25,7 @@
           <button><i class="fa fa-search" aria-hidden="true"></i></button>
         </div>
         <div id="adSelected-box">
-          <div id="adSelected-number"><span>Ad Number: </span> 12</div>
+          <div id="adSelected-number"><span>Ad Number: </span></div>
           <div id="adSelected-info">
             <div class="hf-label">Vehicle Details</div>
             <div><span>Make: </span> {{car.make}}</div>
@@ -48,21 +48,12 @@
           <div id="adSelected-preview">
             <div id="adSelected-previewImage">
               <i class="fa fa-caret-left" aria-hidden="true" style="left:5px;" id='vd-previewImageLeft'></i>
-              <img src="{{'assets/uploads/cars/' + car.id + '-1.jpg'}}">
+              <img *ngIf = "previewImgFile" [src]="previewImgFile">
               <i class="fa fa-caret-right" aria-hidden="true" style="right: 5px;" id='vd-previewImageRight'></i>
             </div>
             <div id="adSelectedPreviewItems">
-              <div class="adSelectedItem-image">
-                <img src="{{'assets/uploads/cars/' + car.id + '-1.jpg'}}" />
-              </div>
-              <div class="adSelectedItem-image">
-                <img src="{{'assets/uploads/cars/' + car.id + '-2.jpg'}}">
-              </div>
-              <div class="adSelectedItem-image">
-                <img src="{{'assets/uploads/cars/' + car.id + '-3.jpg'}}">
-              </div>
-              <div class="adSelectedItem-image">
-                <img src="{{'assets/uploads/cars/' + car.id + '-4.jpg'}}">
+              <div class="adSelectedItem-image" *ngFor = "let imgFile of imgFiles">
+                <img [src]="imgFile" />
               </div>
             </div>
           </div>

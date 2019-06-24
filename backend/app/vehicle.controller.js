@@ -5,7 +5,6 @@ var date = require("./date");
 //Create new vehicle
 exports.create = (req, res) => {
     // Create a vehicle
-    console.log(req.body);
     let vehicle = {
         ad_id       : req.body.ad_id,
         make_id     : req.body.make_id, 
@@ -27,7 +26,7 @@ exports.create = (req, res) => {
     .then(data => {
         res.json(vehicle);
     }).catch(err => {
-        res.status(500).json({
+        return res.status(500).json({
             message: err.message || "Something wrong while creating the vehicle."
         });
     });
@@ -109,7 +108,6 @@ exports.deleteByAdId = (req, res) => {
         }
         vehicles.forEach(function(vehicle) {
             var id = vehicle.data().id;
-            console.log("vehicle_id" + id);
             vehicle.ref.delete()
             .then(data=>{
                 res.send({message: "Vehicle deleted successfully!", status: "Success", id:id});

@@ -3,18 +3,18 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { UserModel } from '../user.model';
+import { UserModel } from '../models/user.model';
+import { CommonService } from '../models/config'
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-    
-    baseurl: string = "http://localhost:3000";
     
     private currentUserSubject: BehaviorSubject<UserModel>;
     public currentUser: Observable<UserModel>;
 
     constructor(
-        private http: HttpClient) {
+        private http: HttpClient,
+        private commonService: CommonService) {
         this.currentUserSubject = new BehaviorSubject<UserModel>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
     }
@@ -24,13 +24,12 @@ export class AuthenticationService {
     }
 
     login(username: string, password: string) {
-        return this.http.post<any>(this.baseurl + '/users/authenticate', { username, password })
+        return this.http.post<any>(this.commonService.baseurl + '/users/authenticate', { username, password })
             .pipe(map(user => {
                 // login successful if there's a jwt token in the response
                 if (user && user.token) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(user));
-                    console.log(user);
                     this.currentUserSubject.next(user);
                 }
 
@@ -45,8 +44,6 @@ export class AuthenticationService {
     }
 
     public setCurrentUser(user : UserModel){
-        console.log("set");
-        console.log(user);
         this.currentUserSubject = new BehaviorSubject<UserModel>(user);
         this.currentUser = this.currentUserSubject.asObservable();
     }

@@ -12,45 +12,47 @@ exports.create = async (req, res) => {
 
     // Request validation
     if(!req.body) {
-        res.status(400).send({
+        return res.status(400).send({
             message: "User content can not be empty"
         });
     }
 
-    if(req.body.username == 'aa') {
-        res.status(400).send({
-            message:  'Username "' + req.body.username + '" is already taken'
-        }); return;
-    }
+    const snaps = await db.collection('users').where('username', '==', req.body.username).get();
 
-    let billinginfo = await billingInfo.create();
-    
-    // Create a user
-    let user = {
-        username        : req.body.username,
-        password        : bcrypt.hashSync(req.body.password, 10), 
-        billinginfo_id  : billinginfo.id,
-        message_id      : '',
-        type            : 'USER',
-        create_at       : date.getDate(),
-        update_at       : date.getDate()
-    }
+    if (snaps._size != 0) {
+        return res.status(400).json({
+            message: "Username already exists."
+        });       
+    } else {
 
-    // Save user in the database
-    let doc = db.collection("users").doc();
-    user.id = doc.id;
-    console.log(user);
-    
-    doc.set(user)
-        .then(data => {
-            const token = jwt.sign({ sub: user.id }, config.secret);
-            user.token = token;
-            res.json(user);
-        }).catch(err => {
-            res.status(500).json({
-                message: err.message || "Something wrong while creating the user."
+        let billinginfo = await billingInfo.create();
+        
+        // Create a user
+        let user = {
+            username        : req.body.username,
+            password        : bcrypt.hashSync(req.body.password, 10), 
+            billinginfo_id  : billinginfo.id,
+            message_id      : '',
+            type            : 'USER',
+            create_at       : date.getDate(),
+            update_at       : date.getDate()
+        }
+
+        // Save user in the database
+        let doc = db.collection("users").doc();
+        user.id = doc.id;
+        
+        doc.set(user)
+            .then(data => {
+                const token = jwt.sign({ sub: user.id }, config.secret);
+                user.token = token;
+                res.json(user);
+            }).catch(err => {
+                return res.status(500).json({
+                    message: err.message || "Something wrong while creating the user."
+                });
             });
-        });
+    }
 };
 
 // Retrieve all users from the database.
@@ -65,7 +67,7 @@ exports.findAll = (req, res) => {
             res.json(users);
         })
         .catch((err) => {
-            res.status(500).send({
+            return res.status(500).send({
                 message: err.message || "Something wrong while retrieving users."
             });
         });
@@ -76,7 +78,7 @@ exports.findOne = (req, res) => {
 
     // Request validation
     if(!req.body) {
-        res.status(400).send({
+        return res.status(400).send({
             message: "User content can not be empty"
         });
     }
@@ -87,10 +89,23 @@ exports.findOne = (req, res) => {
             res.json(user);
         })
         .catch((err) => {
-            res.status(500).send({
+            return res.status(500).send({
                 message: err.message || "Something wrong while retrieving user with id."
             });
         });     
+};
+
+exports.findAllByUserName = async (req, res) => {
+    
+    let user;
+    
+    const snaps = await db.collection('users').where('username', '==', req.body.username).get();
+
+    snaps.forEach((doc) => {
+        user = doc.data();
+        res.json(user);
+
+    });
 };
 
 // Update a user with a user id
@@ -98,7 +113,7 @@ exports.update2 = (req, res) => {
     
     // Request validation
     if(!req.body) {
-        res.status(400).send({
+        return res.status(400).send({
             message: "User content can not be empty"
         });
     }
@@ -110,13 +125,13 @@ exports.update2 = (req, res) => {
     doc.update(user)
         .then(data => {
             if(!data) {
-                res.status(404).send({
+                return res.status(404).send({
                     message: "User not found with id " + req.params.id
                 });
             }
             res.send({message: "User updated successfully!"});
         }).catch(err => {
-            res.status(500).send({
+            return res.status(500).send({
                 message: err.message || "Could not delete user with id " + req.params.id
             });
         });
@@ -127,7 +142,7 @@ exports.update = (req, res) => {
     
     // Request validation
     if(!req.body) {
-        res.status(400).send({
+        return res.status(400).send({
             message: "User content can not be empty"
         });
     }
@@ -142,13 +157,13 @@ exports.update = (req, res) => {
     doc.update(user)
         .then(data => {
             if(!data) {
-                res.status(404).send({
+                return res.status(404).send({
                     message: "User not found with id " + req.params.id
                 });
             }
             res.send({message: "User updated successfully!"});
         }).catch(err => {
-            res.status(500).send({
+            return res.status(500).send({
                 message: err.message || "Could not delete user with id " + req.params.id
             });
         });
@@ -159,7 +174,7 @@ exports.delete = (req, res) => {
 
     // Request validation
     if(!req.body) {
-        res.status(400).send({
+        return res.status(400).send({
             message: "User content can not be empty"
         });
     }
@@ -167,13 +182,13 @@ exports.delete = (req, res) => {
     db.collection('users').doc(req.params.id).delete()
         .then(data => {
             if(!data) {
-                res.status(404).send({
+                return res.status(404).send({
                     message: "User not found with id " + req.params.id
                 });
             }
             res.send({message: "User deleted successfully!"});
         }).catch(err => {
-            res.status(500).send({
+            return res.status(500).send({
                 message: err.message || "Could not delete user with id " + req.params.id
             });
         });
@@ -185,7 +200,7 @@ exports.authenticate = (req, res) => {
 
     // Request validation
     if(!req.body) {
-        res.status(400).send({
+        return res.status(400).send({
             message: "User content can not be empty"
         });
     }
@@ -202,79 +217,17 @@ exports.authenticate = (req, res) => {
                     const token = jwt.sign({ sub:user.id }, config.secret);
                     user.token = token;
                     res.json(user);
+                } else {
+                    return res.status(400).send({
+                        message: "The password is incorrect."
+                    });
                 }
-                res.json(user);
             });
         })
         .catch((err) => {
-            res.status(500).send({
+            return res.status(500).send({
                 message: err.message || "Something wrong while retrieving users with name."
             });
         });
 }
 
-
-/*
-// Retrieve all users from the database.
-exports.findAll = async (req, res) => {
-    
-    let users = [];
-    
-    const userSnaps = await db.collection('users').get();
-
-    let userArray = [];
-    userSnaps.forEach(function(doc) {userArray.push(doc);});
-    
-    for(const userDoc of userArray) {
-        
-        let user = userDoc.data();
-
-        const billngInfoSnaps = await db.collection('billinginfos').where('id', '==', user.billinginfo_id).get();
-        
-        billngInfoSnaps.forEach((billngInfoDoc) => {
-            Object.assign(user, billngInfoDoc.data());
-        });
-
-        users.push(user);
-    }
-
-    res.json(users);
-};
-
-// Find a single user with a user_id
-exports.findOne = async (req, res) => {
-
-    const userSnaps = await db.collection('users').where('id', '==', req.params.id).get();
-
-    let userArray = [];
-    userSnaps.forEach(function(doc) {userArray.push(doc);});
-    
-    for(const userDoc of userArray) {
-        
-        let user = userDoc.data();
-
-        const billngInfoSnaps = await db.collection('billinginfos').where('id', '==', user.billinginfo_id).get();
-        
-        billngInfoSnaps.forEach((billngInfoDoc) => {
-            Object.assign(user, billngInfoDoc.data());
-        });
-
-        res.json(user);
-    }
-
-};
-
-// Update a user
-exports.update = (req, res) => {
-    // Find and update user with the request body
-    if (!req.params.id) {  // new
-        let doc = db.collection("users").doc();
-        user.id = doc.id;
-        doc.set(user);
-    } else {               // update
-        let user = {}
-        user[req.body.fname] = req.body.fvalue;
-        let doc = db.collection("users").doc(req.params.id);
-        doc.update(user)
-    }
-};*/

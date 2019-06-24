@@ -26,7 +26,7 @@ exports.create = (req, res) => {
     .then(data => {
         res.json(ad);
     }).catch(err => {
-        res.status(500).json({
+        return res.status(500).json({
             message: err.message || "Something wrong while creating the ad."
         });
     });
@@ -99,7 +99,7 @@ exports.delete = (req, res) => {
                 message: "Ad not found with id " + req.params.id
             });
         }
-        res.send({message: "Ad deleted successfully!"});
+        return res.send({message: "Ad deleted successfully!"});
     }).catch(err => {
         if(err.kind === 'ObjectId' || err.name === 'NotFound') {
             return res.status(404).send({

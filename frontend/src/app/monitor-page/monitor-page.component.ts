@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 
 import { Router }            from "@angular/router";
 
-import { AdModel }           from '../ad.model';
-import { AdService }         from '../ad.service';
-import { VehicleModel }      from '../vehicle.model';
-import { VehicleService }    from '../vehicle.service';
-import { CarModel }          from '../car.model';
-import { CarService }        from '../car.service';
+import { AdModel }           from '../models/ad.model';
+import { AdService }         from '../models/ad.service';
+import { VehicleModel }      from '../models/vehicle.model';
+import { VehicleService }    from '../models/vehicle.service';
+import { CarModel }          from '../models/car.model';
+import { CarService }        from '../models/car.service';
+import { CommonService }          from '../models/config'
 
 declare var $: any;
 
@@ -24,68 +25,53 @@ export class MonitorPageComponent implements OnInit {
   cars       : CarModel[];
   car        : any;
   slideIndex : number;
+  imgFiles   : string[];
+  previewImgFile : string;
 
   features   : string[];
 
   constructor(private adService      : AdService,
               private vehicleService : VehicleService, 
-              private carService     : CarService, 
+              private carService     : CarService,
+              private commonService : CommonService,
               private router         : Router) { }
   ngOnInit() {
 
-    let car_id = localStorage.getItem("car_id");
+    /*let car_id = localStorage.getItem("car_id");
     if(!car_id){
       alert("Something wrong!");
       this.router.navigate(['']);
       return;
-    }
+    }*/
+
     this.car = {};
 
     this.getAllAd();
-    //this.getAllVehicle();
-
-    //this.getCarById(car_id);
+    //this.getCarById('4CqIoK3oZrbVxPsffotO');
 
     $(document).ready(function() {
       
-      /*var slideIndex=0;
-      var imageContainer=$(".adSelectedItem-image");
-      function previewImageLeft(){
-        slideIndex-=1;
-        if(slideIndex<0)slideIndex=imageContainer.length-1;
-        setImage();        
-      }
-      function previewImageRight(){
-        slideIndex+=1;
-        if(slideIndex>imageContainer.length-1)slideIndex=0;
-        setImage();
-      }
-      function setImage(){
-        var imageSrc= imageContainer.eq(slideIndex).find('img').attr('src');
-        $("#adSelected-previewImage").find('img').attr('src',imageSrc);
-      }*/
       var slideIndex=0;
-      var imageContainer=$(".adSelectedItem-image");
       
-      $(".adSelectedItem-image").click(function() {
+      $("body").on("click", ".adSelectedItem-image", function() {
         var imageSrc= $(this).find('img').attr('src');
         $("#adSelected-previewImage").find('img').attr('src',imageSrc);
       });
       
       $("#vd-previewImageLeft").click(function() {
         slideIndex-=1;
-        if(slideIndex<0)slideIndex=imageContainer.length-1;
+        if(slideIndex<0)slideIndex=$(".adSelectedItem-image").length-1;
         setImage();
       });
 
       $("#vd-previewImageRight").click(function() {
         slideIndex+=1;
-        if(slideIndex>imageContainer.length-1)slideIndex=0;
+        if(slideIndex>$(".adSelectedItem-image").length-1)slideIndex=0;
         setImage();
       });
       
       function setImage(){
-        var imageSrc= imageContainer.eq(slideIndex).find('img').attr('src');
+        var imageSrc= $(".adSelectedItem-image").eq(slideIndex).find('img').attr('src');
         $("#adSelected-previewImage").find('img').attr('src',imageSrc);
       }
     });
@@ -94,7 +80,10 @@ export class MonitorPageComponent implements OnInit {
   getAllAd(): void {
     this.adService.getAllAd().subscribe(data=>{
       this.ads = data;
-      console.log(data);
+      if(data[0])
+        this.getCarByAdId(data[0].id);
+      else
+        this.car = {};
     });
   };
 
@@ -107,58 +96,36 @@ export class MonitorPageComponent implements OnInit {
   getCarByAdId(ad_id : string){
     this.carService.getCarByAdId(ad_id).subscribe((data:any)=>{
       this.car = data;
+
+      let imgFiles = [];
+      this.imgFiles = [];
+      this.previewImgFile = "";
+
+      imgFiles = JSON.parse(data.imgfiles);
+      for(let i = 0; i < imgFiles.length; i++) {
+        this.imgFiles[i] = this.commonService.baseurl + "/uploads/cars/" + imgFiles[i];
+        if(i == 0) this.previewImgFile = this.imgFiles[0];
+      }
+
       this.features = JSON.parse(data.features);
-      //location.reload();
-      console.log(data);
     });
   }
 
   deleteAd(ad: AdModel){
     this.adService.deleteAd(ad.id).subscribe(data=>{
-      console.log(data);
       this.deleteVehicleByAdId(ad.id);
       this.getAllAd();
     });
   }
 
-  /*getAllVehicle(): void {
-    this.vehicleService.getAllVehicle().subscribe(data=>{
-      this.vehicles = data;
-      console.log(data);
-    });
-  };
-
-  deleteVehicle(vehicle: VehicleModel){
-    this.vehicleService.deleteVehicle(vehicle.id).subscribe(data=>{
-      console.log(data);
-      this.getAllVehicle();
-    });
-  }*/
-
   deleteVehicleByAdId(ad_id:string){
     this.vehicleService.deleteVehicleByAdId(ad_id).subscribe((data:any)=>{
-      console.log(data);
       this.deleteCarByVehicleId(data.id);
     });
   }
 
-  /*getAllCar(): void {
-    this.carService.getAllCar().subscribe(data=>{
-      this.cars = data;
-      console.log(data);
-    });
-  };
-
-  deleteCar(car: CarModel){
-    this.carService.deleteCar(car.id).subscribe(data=>{
-      console.log(data);
-      this.getAllCar();
-    });
-  }*/
-
   deleteCarByVehicleId(vehicle_id:string){
     this.carService.deleteCarByVehicleId(vehicle_id).subscribe(data=>{
-      console.log(data);
     });
   }
 

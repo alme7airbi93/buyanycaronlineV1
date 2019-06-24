@@ -78,12 +78,6 @@
 						<div id="sortby-container">
 							<div id="sortby-label">Sort by:</div>
 							<div id="sortby">
-								<!--<select formControlName = "orderid" class="selectpicker" title="TO" data-width="100%">
-									<option [value] = "0">Highest Price</option>
-									<option [value] = "1">Lowest Price</option>
-									<option [value] = "2">Newest</option>
-									<option [value] = "3">Oldest</option>
-								</select>-->
 								<a id="sortby-selected" href="#" data-toggle="dropdown" 
 								   data-width="100%">Highest Price</a>
 								<ul class="dropdown-menu dropdown-menu-right">
@@ -98,7 +92,7 @@
 
 					<div class="searchResults-item" *ngFor = "let car of cars">
 						<div class="searchResult-image">
-							<img src="{{'assets/uploads/cars/' + car.id + '-1.jpg'}}">
+							<img [src]="car.imgFile">
 						</div>
 						<div class="searchResult-info">
 							<div>

@@ -6,7 +6,8 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { CarService } from './car.service';
+import { CarService } from './models/car.service';
+import { CommonService } from './models/config'
 
 import { IndexComponent } from './index/index.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
@@ -34,7 +35,8 @@ import { MonitorPageComponent } from './monitor-page/monitor-page.component';
     ReactiveFormsModule
   ],
   providers: [
-    CarService
+    CarService,
+    CommonService
   ],
   bootstrap: [AppComponent]
 })

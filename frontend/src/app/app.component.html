@@ -57,13 +57,13 @@
                         <li><a href="#">French</a></li>
                     </ul>
                   </div>
-              <!--<div>
-                    <a id="header-currency" href="#" data-toggle="dropdown" data-width="100%">
-                        <i class="fa fa-money" style="margin-right: 3px;"></i>AED</a>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                        <li><a href="#">USD</a></li>
-                        <li><a href="#">INR</a></li>
-                    </ul>
+                  <!--<div>
+                  <a id="header-currency" href="#" data-toggle="dropdown" data-width="100%">
+                      <i class="fa fa-money" style="margin-right: 3px;"></i>AED</a>
+                  <ul class="dropdown-menu dropdown-menu-right">
+                      <li><a href="#">USD</a></li>
+                      <li><a href="#">INR</a></li>
+                  </ul>
                   </div>-->
               </div>
           </div>
@@ -133,17 +133,24 @@
           </div>
           <div class="pf-content">
                 <form [formGroup]="loginForm" method="post">
-                    <div class="pf-label">Username</div>
-                    <input formControlName = "username" type="text" class="pf-textInput" name="username" aria-required="true" aria-invalid="false" placeholder="Enter your username" size="40">
-                    <div class="pf-label">Password</div>
-                    <input formControlName = "password" type="password" class="pf-textInput" name="password" size="40" aria-required="true" aria-invalid="false" placeholder="Enter your password">
-                    <div *ngIf="submitted && error_msg" class="invalid-feedback">
-                        <div *ngIf="error_msg">Username is required</div>
+                    <div class="form-group">
+                        <label class="pf-label">User Name</label>
+                        <input type="text" formControlName="username" class="form-control pf-textInput" [ngClass]="{ 'is-invalid': submitted && fLogin.username.errors }" placeholder="Enter your user name"/>
+                        <div *ngIf="submitted && fLogin.username.errors" class="invalid-feedback">
+                            <div *ngIf="fLogin.username.errors.required">User Name is required</div>
+                        </div>
                     </div>
-                    <!--<a href="#" class="pf-link">Forgot your password?</a>-->
+                    <div class="form-group">
+                        <label class="pf-label">Password</label>
+                        <input type="password" formControlName="password" class="form-control pf-textInput" [ngClass]="{ 'is-invalid': submitted && fLogin.password.errors }" />
+                        <div *ngIf="submitted && fLogin.password.errors" class="invalid-feedback">
+                            <div *ngIf="fLogin.password.errors.required">Password is required</div>
+                            <div *ngIf="fLogin.password.errors.minlength">Password must be at least 6 characters</div>
+                            <div *ngIf="fLogin.password.errors.incorrect">Invalid username or password.</div>
+                        </div>
+                    </div>
                     <input (click)="onLoginSubmit($event)" type="submit" value="Login" class="pf-submit">
                 </form>
-                <div *ngIf="error">{{ error }}</div>
           </div>
       </div>
   </div>
@@ -161,31 +168,33 @@
           </div>
           <div class="pf-content">
                 <form [formGroup]="registerForm" method="post">
-                    <div class="pf-label">Username(email)</div>
-                    <input formControlName = "username" type="text" class="pf-textInput" name="username" value="" aria-required="true" aria-invalid="false" placeholder="Enter your username" size="40">
-                    <div class="pf-label">Password</div>
-                    <input formControlName = "password" type="password" class="pf-textInput" name="password" value="" size="40" aria-required="true" aria-invalid="false" placeholder="Enter your password">
-                    <div class="pf-label">Re-type Password</div>
-                    <input formControlName = "confirm_password" type="password" class="pf-textInput" name="confirm_password" value="" size="40" aria-required="true" aria-invalid="false" placeholder="Enter your password">
-                    <div *ngIf = "error_msg" class="invalid-feedback-div">
-                        {{error_msg}}
+                    <div class="form-group">
+                        <label class="pf-label">User Name</label>
+                        <input type="text" formControlName="username" class="form-control pf-textInput" [ngClass]="{ 'is-invalid': submitted && fRegister.username.errors }" placeholder="Enter your user name"/>
+                        <div *ngIf="submitted && fRegister.username.errors" class="invalid-feedback">
+                            <div *ngIf="fRegister.username.errors.required">User Name is required</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="pf-label">Password</label>
+                        <input type="password" formControlName="password" class="form-control pf-textInput" [ngClass]="{ 'is-invalid': submitted && fRegister.password.errors }"  placeholder="Enter your password"/>
+                        <div *ngIf="submitted && fRegister.password.errors" class="invalid-feedback">
+                            <div *ngIf="fRegister.password.errors.required">Password is required</div>
+                            <div *ngIf="fRegister.password.errors.minlength">Password must be at least 6 characters</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="pf-label">Confirm Password</label>
+                        <input type="password" formControlName="confirmPassword" class="form-control pf-textInput" [ngClass]="{ 'is-invalid': submitted && fRegister.confirmPassword.errors }"  placeholder="Enter your confirm password" />
+                        <div *ngIf="submitted && fRegister.confirmPassword.errors" class="invalid-feedback">
+                            <div *ngIf="fRegister.confirmPassword.errors.required">Confirm Password is required</div>
+                            <div *ngIf="fRegister.confirmPassword.errors.minlength">Password must be at least 6 characters</div>
+                            <div *ngIf="fRegister.confirmPassword.errors.mustMatch">Passwords must match</div>
+                            <div *ngIf="fRegister.confirmPassword.errors.exist">Invalid username or password.</div>
+                        </div>
                     </div>
                     <input (click)="onRegisterSubmit($event)" type="submit" value="Register" class="pf-submit">
                 </form>
-                <!--<div class="pf-social">
-                    <div class="pf-label">OR</div>
-                    <div class="pf-social-buttons">
-                        <a href="#" target="_blank">
-                            <i class="fa fa-facebook"></i>
-                        </a>
-                        <a href="#" target="_blank">
-                            <i class="fa fa-twitter"></i>
-                        </a>
-                        <a href="#" target="_blank">
-                            <i class="fa fa-google"></i>
-                        </a>
-                    </div>
-                </div>-->
           </div>
       </div>
   </div>

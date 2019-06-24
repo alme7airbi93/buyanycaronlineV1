@@ -18,11 +18,24 @@ body {
 	border-bottom:1px solid rgba(255, 255, 255, .6);
 	background:black;
 	color: rgba(255, 255, 255, .8);
-	line-height:10px;
 	font: normal normal normal 16px/1 FontAwesome;
 }
 
 .ba-input::placeholder {
+	color:  rgba(255, 255, 255, .8);
+}
+
+.ba-select {
+	width:100%;
+	border:0px;
+	border-bottom:1px solid rgba(255, 255, 255, .6);
+	background:black;
+	color: rgba(255, 255, 255, .8);
+	line-height:10px;
+	font: normal normal normal 16px/1 FontAwesome;
+}
+
+.ba-select::placeholder {
 	color:  rgba(255, 255, 255, .8);
 }
 
@@ -162,7 +175,6 @@ button {
 #mainMenu-inner {
 	position: relative;
 	padding: 0 40px;
-	width:950px;
 	margin:0 auto;
 }
 #mainMenu-inner:before,
@@ -443,7 +455,8 @@ footer {
 }
 #home-main,
 .main-content-wrapper {
-	min-height: 590px;
+	min-height: 700px;
+	height:auto;
 	margin-bottom: 45px;
 }
 #home-container {
@@ -456,7 +469,7 @@ footer {
 	width: 100%;
 	background-size: cover;
 	background-position: center center;
-	min-height: 500px;
+	min-height: 1000px !important;
 	min-height: 100%;
 	border: 1px solid rgb(36, 49, 54);
 }
@@ -1056,6 +1069,7 @@ footer {
 	display: inline-block;
 	font-family: 'Exo 2';
 	font-size: 14px;
+	width:80%;
 }
 #up-container #manageAds-box .manageAdsItem-right{
 	float: right;
@@ -1391,7 +1405,7 @@ footer {
 }
 
 #nap-container #uploadPhotoBoxItem-container{
-	width: 14.5%;
+	width: 20%;
     padding: 0 5px;
     display: inline-block;
     margin-top: 5px;
@@ -1688,12 +1702,11 @@ footer {
     color: #fff;
     margin-top: 45px;
     position: relative;
-	min-height:600px;
 }
 
 #ma-container #adListBox-container{
 	width: 270px;
-	position: absolute;
+	position: relative;
 }
 
 #ma-container #adList-box{
@@ -1751,8 +1764,7 @@ footer {
 }
 
 #ma-container #adSelectedBox-container{
-    width: 100%;
-    padding-left: 280px;
+    width: calc(100% - 280px);
 }
 #ma-container #adSelectedSearch-box{
     background-color: rgba(22, 30, 33, 1);
@@ -1801,7 +1813,6 @@ footer {
  #ma-container #adSelected-box{
     background-color: rgba(22, 30, 33, 1);
     border: 1px solid rgb(36, 49, 54);
-    padding: 20px;
     margin-bottom: 5px;
  }
 
@@ -1843,7 +1854,7 @@ footer {
 	margin:0;
 }
 #ma-container #adSelected-preview{
-	width:60%;
+	width:70%;
 	display:inline-block;
 	position:relative;
 	vertical-align: top;
@@ -1938,7 +1949,8 @@ footer {
     font-weight: 400;
     font-size: 18px;
     display: inline-block;
-    padding-top: 10px;
+	padding-top: 10px;
+	width:280px;
 }
 #vd-container #vdHeader-title{
 	font-weight: 800;
@@ -1964,7 +1976,7 @@ footer {
 
 
 #vd-container #vd-preview{
-    width: 55%;
+    width: 60%;
     display: inline-block;
     position: relative;
     vertical-align: top;
@@ -2134,6 +2146,6 @@ footer {
 
 #imagePopupContainer img{
     max-width: 100%;
-    width: 800px;
+    width: 1000px;
     border: 5px solid white;
 }

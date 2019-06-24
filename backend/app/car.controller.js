@@ -1,7 +1,8 @@
-var admin = require("firebase-admin");
-var db = admin.firestore();
-var path = require('path');
-var date = require("./date");
+const admin = require("firebase-admin");
+const db = admin.firestore();
+const path = require('path');
+const date = require("./date");
+const fs = require('fs')
 
 //Upload a image file
 exports.upload = (req, res) => {
@@ -13,17 +14,23 @@ exports.upload = (req, res) => {
     
     db.collection('cars').doc(car_id).get()
     .then((doc) => {
-        var data = doc.data();
+        let data = doc.data();
         
-        var imgcount = data.imgcount;
-        imgcount++;
-        
-        var filename = car_id + "-" + imgcount + ext;
-        
+        let imgincrement = data.imgincrement;
+        imgincrement++;
+
+        let filename = car_id + "-" + imgincrement + ext;
+
+        let imgfiles = [];
+        imgfiles = JSON.parse(data.imgfiles);
+        imgfiles.push(filename);
+
+  
         file.mv("public/uploads/cars/" + filename, function(err, success) {
-            var car = {};
-            car.imgcount = imgcount;
-            var doc = db.collection("cars").doc(car_id);
+            let car = {};
+            car.imgincrement = imgincrement;
+            car.imgfiles = JSON.stringify(imgfiles);
+            let doc = db.collection("cars").doc(car_id);
             doc.update(car)
 
             return res.json({success:true, filename:filename});
@@ -36,7 +43,7 @@ exports.upload = (req, res) => {
 //Create new car
 exports.create = (req, res) => {
     // Create a car
-    console.log(req.body);
+    
     let car = {
         vehicle_id   : req.body.vehicle_id,
         distance     : req.body.distance, 
@@ -48,31 +55,23 @@ exports.create = (req, res) => {
         color        : req.body.color,
         fueltype     : req.body.fueltype,
         regionalspecs: req.body.regionalspecs,
-        imgcount     : req.body.imgcount,
+        imgincrement : req.body.imgincrement,
+        imgfiles     : req.body.imgfiles,
         create_at    : date.getDate(),
         update_at    : date.getDate()
     }
 
     // Save car in the database
-    var doc = db.collection("cars").doc();
+    let doc = db.collection("cars").doc();
     //const increment = db.FieldValue.increment(1);
     
     car.id = doc.id;
-    //car.reads = increment;
-
-    /*const increment = firebase.firestore.FieldValue.increment(1);
-
-    // Document reference
-    const storyRef = db.collection('stories').doc('hello-world');
-
-    // Update read count
-    storyRef.update({ reads: increment });*/
-
+    
     doc.set(car)
     .then(data => {
         res.json(car);
     }).catch(err => {
-        res.status(500).json({
+        return res.status(500).json({
             message: err.message || "Something wrong while creating the car."
         });
     });
@@ -92,6 +91,8 @@ exports.findAll = async (req, res) => {
     for(const carDoc of carArray) {
 
         let car = carDoc.data();
+        let car_id = car.id;
+        
         let vehicleSnaps = await db.collection('vehicles').where('id', '==', car.vehicle_id).get();
         
         let vehicleArray = [];
@@ -120,6 +121,7 @@ exports.findAll = async (req, res) => {
                     car.model = modelDoc.data().modelvalue;
                 });
 
+                car.id = car_id;
                 cars.push(car);
             });
         }
@@ -176,6 +178,19 @@ exports.findOne = async (req, res) => {
     res.json(car);
 };
 
+// Find a single car alone with a car_id
+exports.findAloneOne = async (req, res) => {
+
+    let car = {};
+    
+    const carSnaps = await db.collection('cars').where('id', '==', req.params.id).get();
+
+    carSnaps.forEach(function(doc) {
+        car = doc.data();
+        res.json(car);
+    });
+};
+
 // Find a single car with a ad_id
 exports.findOneByAdId = async (req, res) => {
 
@@ -229,12 +244,12 @@ exports.findOneByAdId = async (req, res) => {
 
 async function getAllByPrice(req, res, adSnaps) {
 
-    var make_id     = req.body.make;
-    var model_id    = req.body.model;
-    var fromPrice   = Number(req.body.fromPrice);
-    var toPrice     = Number(req.body.toPrice);
-    var fromYear    = Number(req.body.fromYear);
-    var toYear      = Number(req.body.toYear);
+    let make_id     = req.body.make;
+    let model_id    = req.body.model;
+    let fromPrice   = Number(req.body.fromPrice);
+    let toPrice     = Number(req.body.toPrice);
+    let fromYear    = Number(req.body.fromYear);
+    let toYear      = Number(req.body.toYear);
     
     let cars = [];
     
@@ -293,12 +308,12 @@ async function getAllByPrice(req, res, adSnaps) {
 
 async function getAllByYear(req, res, vehicleSnaps) {
 
-    var make_id     = req.body.make;
-    var model_id    = req.body.model;
-    var fromPrice   = Number(req.body.fromPrice);
-    var toPrice     = Number(req.body.toPrice);
-    var fromYear    = Number(req.body.fromYear);
-    var toYear      = Number(req.body.toYear);
+    let make_id     = req.body.make;
+    let model_id    = req.body.model;
+    let fromPrice   = Number(req.body.fromPrice);
+    let toPrice     = Number(req.body.toPrice);
+    let fromYear    = Number(req.body.fromYear);
+    let toYear      = Number(req.body.toYear);
     
     let cars = [];
     
@@ -357,8 +372,6 @@ async function getAllByYear(req, res, vehicleSnaps) {
 // Retrieve all searched cars from the database.
 exports.findAllOnSearch = async (req, res) => {
     
-    console.log(req.body);
-
     let orderid = req.body.orderid;
     let adSnaps;
     let vehicleSnaps;
@@ -386,13 +399,13 @@ exports.findAllOnSearch = async (req, res) => {
 // Retrieve all searched cars from the database.
 exports.findAllOnIndex = async (req, res) => {
     
-    var motorTable  = req.body.motor;
-    var make_id     = req.body.make;
-    var model_id    = req.body.model;
-    var fromPrice   = Number(req.body.fromPrice);
-    var toPrice     = Number(req.body.toPrice);
-    var fromYear    = Number(req.body.fromYear);
-    var toYear      = Number(req.body.toYear);
+    let motorTable  = req.body.motor;
+    let make_id     = req.body.make;
+    let model_id    = req.body.model;
+    let fromPrice   = Number(req.body.fromPrice);
+    let toPrice     = Number(req.body.toPrice);
+    let fromYear    = Number(req.body.fromYear);
+    let toYear      = Number(req.body.toYear);
     
     let cars = [];
        
@@ -404,6 +417,7 @@ exports.findAllOnIndex = async (req, res) => {
     for(const carDoc of carArray) {
 
         let car = carDoc.data();
+        let car_id = car.id;
         let vehicleSnaps = await db.collection('vehicles').where('id', '==', car.vehicle_id).get();
         
         let vehicleArray = [];
@@ -431,7 +445,8 @@ exports.findAllOnIndex = async (req, res) => {
                 snaps[2].forEach((modelDoc) => {
                     car.model = modelDoc.data().modelvalue;
                 });
-
+                
+                car.id = car_id;
                 if ((make_id   == "" || make_id   == car.make_id )  && 
                     (model_id  == "" || model_id  == car.model_id)  && 
                     (fromPrice == "" || fromPrice <= car.price   )  &&
@@ -442,7 +457,6 @@ exports.findAllOnIndex = async (req, res) => {
             });
         }
     }
-    console.log(cars);
     res.json(cars);
 };
 
@@ -450,15 +464,52 @@ exports.findAllOnIndex = async (req, res) => {
 exports.update = (req, res) => {
     // Find and update car with the request body
     if (!req.params.id) {  // new
-        var doc = db.collection("cars").doc();
+        let doc = db.collection("cars").doc();
         car.id = doc.id;
         doc.set(car);
     } else {               // update
-        var car = {}
+        let car = {}
         car[req.body.fname] = req.body.fvalue;
-        var doc = db.collection("cars").doc(req.params.id);
+        let doc = db.collection("cars").doc(req.params.id);
         doc.update(car)
     }
+};
+
+// Update a car image
+exports.updateImage = (req, res) => {
+                
+    let car_id = req.params.id;
+    let imgFile = req.body.imgFile;
+
+    let filename = "public/uploads/cars/" + imgFile;
+    fs.unlinkSync(filename, (err) => {
+        if (err) {
+          console.error(err);
+          return
+        }
+    });
+
+    db.collection('cars').doc(car_id).get()
+    .then((doc) => {
+        let car = doc.data();
+
+        let imgFiles = [];
+        imgFiles = JSON.parse(car.imgfiles);
+         
+        var index = imgFiles.indexOf(imgFile);
+        if (index > -1) {
+            imgFiles.splice(index, 1);
+        }
+
+        car.imgfiles = JSON.stringify(imgFiles);
+
+        let doc2 = db.collection("cars").doc(car_id)
+        doc2.update(car)
+
+        res.send({message: "Car images updated successfully!", status: "Success"});
+
+    });
+
 };
 
 // Delete a Car with the specified id in the request
@@ -472,7 +523,7 @@ exports.deleteByVehicleId = (req, res) => {
             });
         }
         cars.forEach(function(car) {
-            var id = car.data().id;
+            let id = car.data().id;
             car.ref.delete()
             .then(data=>{
                 res.send({message: "Car deleted successfully!", status: "Success", id:id});
@@ -490,61 +541,3 @@ exports.deleteByVehicleId = (req, res) => {
     });
 };
 
-
-/*
-// Update a car
-exports.update = (req, res) => {
-    // Validate Request
-    if(!req.body) {
-        return res.status(400).send({
-            message: "Car content can not be empty"
-        });
-    }
-
-    // Find and update car with the request body
-    Car.findByIdAndUpdate(req.params.car_id, {
-        title: req.body.title || "No car title", 
-        description: req.body.description,
-        price: req.body.price,
-        company: req.body.company
-    }, {new: true})
-    .then(car => {
-        if(!car) {
-            return res.status(404).send({
-                message: "Car not found with id " + req.params.car_id
-            });
-        }
-        res.send(car);
-    }).catch(err => {
-        if(err.kind === 'ObjectId') {
-            return res.status(404).send({
-                message: "Car not found with id " + req.params.car_id
-            });                
-        }
-        return res.status(500).send({
-            message: "Something wrong updating note with id " + req.params.car_id
-        });
-    });
-};
-
-// Delete a note with the specified noteId in the request
-exports.delete = (req, res) => {
-    Car.findByIdAndRemove(req.params.car_id)
-    .then(car => {
-        if(!car) {
-            return res.status(404).send({
-                message: "Car not found with id " + req.params.car_id
-            });
-        }
-        res.send({message: "Car deleted successfully!"});
-    }).catch(err => {
-        if(err.kind === 'ObjectId' || err.name === 'NotFound') {
-            return res.status(404).send({
-                message: "Car not found with id " + req.params.car_id
-            });                
-        }
-        return res.status(500).send({
-            message: "Could not delete car with id " + req.params.car_id
-        });
-    });
-};*/

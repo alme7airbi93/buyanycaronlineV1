@@ -2,16 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from "@angular/router";
 import { FormBuilder, FormGroup, FormControl, Validators } from "@angular/forms";
 
-import { CarModel } from '../car.model';
-import { CarService } from '../car.service';
+import { CarModel } from '../models/car.model';
+import { CarService } from '../models/car.service';
 
-import { MakeModel } from '../make.model';
-import { MakeService } from '../make.service';
+import { MakeModel } from '../models/make.model';
+import { MakeService } from '../models/make.service';
 
-import { ModelService } from '../model.service';
-import { ModelModel } from '../model.model';
+import { ModelService } from '../models/model.service';
+import { ModelModel } from '../models/model.model';
+import { CommonService }      from '../models/config'
 
-import { switchMap } from 'rxjs/operators';
 declare var $: any;
 
 @Component({
@@ -39,46 +39,34 @@ export class CarSearchComponent implements OnInit {
               private carService: CarService, 
               private makeService: MakeService, 
               private modelService: ModelService,
+              private commonService : CommonService,
               private route: ActivatedRoute,
               private router: Router) { }
   ngOnInit() {
 
-    this.makes   = [
-      {
-        "id"    : "-Lg0ae0f-ovBtrTVPDIH",
-        "value" : "MakeValue1"
-      },
-      {
-        "id"    : "-Lg0ae0f-ovBtrTVPDII",
-        "value" : "MakeValue2"
-      }
-    ];
+    this.getAllMakes();
 
-    this.models   = [
-      {
-        "id"         : "-Lg0ae0f-ovBtrTVPDIH",
-        "make_id"    : "-Lg0ae0f-ovBtrTVPDIH",
-        "modelvalue" : "ModelModelValue11"
-      },
-      {
-        "id"         : "-Lg0ae0f-ovBtrTVPDII",
-        "make_id"    : "-Lg0ae0f-ovBtrTVPDII",
-        "modelvalue" : "ModelModelValue21"
-      },
-      {
-        "id"         : "-Lg0ae0f-ovBtrTVPDIJ",
-        "make_id"    : "-Lg0ae0f-ovBtrTVPDII",
-        "modelvalue" : "ModelModelValue22"
-      }
+    this.fromYears = [
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020
     ];
-
-    this.fromYears = [];
-    for(let i = 0; i <= 10; i++)
-      this.fromYears[i] = i + 2010;
 
     this.toYears    = this.fromYears;
-    this.fromPrices = [5000, 10000, 20000];
-    this.toPrices   = [100000, 200000, 500000];
+    this.fromPrices = [
+      5000,
+      10000,
+      20000
+    ];
+
+    this.toPrices   = [
+      100000,
+      200000,
+      500000
+    ];
 
     this.findForm = this.formBuilder.group({
       make:       ['', Validators.required],
@@ -93,27 +81,14 @@ export class CarSearchComponent implements OnInit {
     let search_params = JSON.parse(localStorage.getItem("search_params"));
     localStorage.removeItem("search_params");
 
-    //this.getAllMakes();
     if(!search_params) {
       this.getAllCar();
     } else {
-      console.log(search_params);
       this.getSearchAllCarOnIndex(search_params);
     }
 
-    /*$(document).ready(function() {
-      $('li').click(function() {
-        $(this).parent().prev("a").text($(this).text());
-        this.onSubmit();
-      });
-    });*/
-    
-    //alert(document.querySelectorAll('li'));
+  }
 
-  }
-  ngAfterViewInit() {
-    $('.selectpicker').selectpicker('refresh');
-  }
   getCarById(id : string){
     this.carService.getCarById(id).subscribe(data=>{
 
@@ -126,7 +101,11 @@ export class CarSearchComponent implements OnInit {
     this.carService.getAllCar().subscribe(data=>{
 
       this.cars = data;
-
+      for(let i = 0; i < this.cars.length; i++) {
+        let imgArray = JSON.parse(this.cars[i].imgfiles);
+        if (imgArray.length > 0)
+          this.cars[i].imgFile = this.commonService.baseurl + "/uploads/cars/" +  imgArray[0];
+      }
     });
   };
 
@@ -134,6 +113,7 @@ export class CarSearchComponent implements OnInit {
     this.makeService.getAllMakes().subscribe(data=>{
 
       this.makes = data;
+      setTimeout("$('.selectpicker').selectpicker('refresh')", 0);
 
     });
   };
@@ -142,6 +122,7 @@ export class CarSearchComponent implements OnInit {
     this.modelService.getAllModelByMakeId(make_id).subscribe(data=>{
 
       this.models = data;
+      setTimeout("$('.selectpicker').selectpicker('refresh')", 0);
 
     });
   }
@@ -167,38 +148,14 @@ export class CarSearchComponent implements OnInit {
 
   onSubmit(){
     this.submitted = true;
-    console.log(this.findForm);
-    //if(this.findForm.valid){
       this.carService.getSearchAllCar(this.findForm.value)
       .subscribe( data => {
-        console.log("+++++++++++++++");
-        console.log(data);
-        console.log("+++++++++++++++");
         this.cars = data;
-        //this.router.navigate(['']);
       });
-    //}
   }
 
   // get the form short name to access the form fields
   get f() { return this.findForm.controls; }
-  
-  /*addCar(): void {
-    this.router.navigate(['add-car']);
-  }
 
-  deleteCar(car: CarModel){
-    
-    this.carService.deleteCar(car.id).subscribe(data=>{
-      console.log(data);
-      this.getAllCar();
-    });
-  }
-
-  updateCar(car: CarModel){
-    localStorage.removeItem("carId");
-    localStorage.setItem("carId", car.id);
-    this.router.navigate(['edit-car']);
-  }*/
 
 }

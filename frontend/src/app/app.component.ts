@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { UserModel } from './user.model';
-import { UserService } from './user.service';
+import { UserModel } from './models/user.model';
+import { UserService } from './models/user.service';
 import { AuthenticationService } from './auth/authentication.service';
 import { ConditionalExpr } from '@angular/compiler';
-import { BillingInfoModel } from './billinginfo.model';
+import { BillingInfoModel } from './models/billinginfo.model';
 declare var $: any;
 
 @Component({
@@ -32,81 +32,95 @@ export class AppComponent {
       private formBuilder: FormBuilder,
       private router: Router,
       private authenticationService: AuthenticationService,
-      private userService: UserService
-  ) { 
-    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
-    // redirect to home if already logged in
-    /*if (this.authenticationService.currentUserValue) { 
-        this.router.navigate(['/']);
-    }*/
-  }
+      private userService: UserService) {
+
+        this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+
+      }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      username        : ['', Validators.required],
-      password        : ['', [Validators.required, Validators.minLength(6)]]
+      username        : [' ', Validators.required],
+      password        : [' ', [Validators.required, Validators.minLength(5)]]
     });
 
     this.registerForm = this.formBuilder.group({
-        username        : ['', Validators.required],
-        password        : ['', [Validators.required, Validators.minLength(6)]],
-        confirm_password: ['', [Validators.required, Validators.minLength(6)]]
+      username        : ['', Validators.required],
+      password        : ['', [Validators.required, Validators.minLength(5)]],
+      confirmPassword : ['', [Validators.required, Validators.minLength(5)]]
+    }, {
+      validator: this.MustMatch('password', 'confirmPassword')
     });
   }
 
+  MustMatch(controlName: string, matchingControlName: string) {
+    return (formGroup: FormGroup) => {
+        const control = formGroup.controls[controlName];
+        const matchingControl = formGroup.controls[matchingControlName];
+
+        if (matchingControl.errors && !matchingControl.errors.mustMatch) {
+            return;
+        }
+
+        // set error on matchingControl if validation fails
+        if (control.value !== matchingControl.value) {
+            matchingControl.setErrors({ mustMatch: true });
+        } else {
+            matchingControl.setErrors(null);
+        }
+    }
+  }
+
   // convenience getter for easy access to form fields
-  get f() { return this.loginForm.controls; }
+  get fLogin() { return this.loginForm.controls; }
+  get fRegister() { return this.registerForm.controls; }
 
   onLoginSubmit() {
     this.submitted = true;
 
-    // stop here if form is invalid
-    /*if (this.loginForm.invalid) {
-        return;
-    }*/
+    if (this.loginForm.invalid) {
+      return;
+    }
 
     this.loading = true;
-    this.authenticationService.login(this.f.username.value, this.f.password.value)
-        .pipe(first())
-        .subscribe(
-            (data:UserModel) => {
-              $('#loginPopup').modal('toggle');
-              if (data.type == 'ADMIN')
-                this.router.navigate(["/monitor-page"]);
-              else
-                this.router.navigate(['/user-profile/' + data.id]);
-            },
-            error => {
-                console.log(error);
-                this.loading = false;
-            });
+    this.authenticationService.login(this.fLogin.username.value, this.fLogin.password.value)
+      .pipe(first())
+      .subscribe(
+        (data:UserModel) => {
+          $('#loginPopup').modal('toggle');
+          if (data.type == 'ADMIN')
+            this.router.navigate(["/monitor-page"]);
+          else
+            this.router.navigate(['/user-profile/' + data.id]);
+        },
+        err => {
+          this.loginForm.controls["password"].setErrors({ incorrect : true });
+          this.loading = false;
+        });
   }
 
   onRegisterSubmit() {
-      this.submitted = true;
+    this.submitted = true;
 
-      // stop here if form is invalid
-      /*if (this.registerForm.invalid) {
-          return;
-      }*/
+    if (this.registerForm.invalid) {
+      return;
+    }
+    
+    this.loading = true;
 
-      this.loading = true;
-
-      this.userService.addUser(this.registerForm.value)
-        .pipe(first())
-        .subscribe(
-          (user:UserModel) => {
-            console.log(user);
-            if (user && user.token) {
-              $('#registerPopup').modal('toggle');
-              $('#loginPopup').modal('toggle');
-            }
-          },
-          err => {
-              console.log(err.error.message);
-              this.error_msg = err.error.message;
-              this.loading = false;
-          });
+    this.userService.addUser(this.registerForm.value)
+      .pipe(first())
+      .subscribe(
+        (user:UserModel) => {
+          if (user && user.token) {
+            $('#registerPopup').modal('toggle');
+            $('#loginPopup').modal('toggle');
+          }
+        },
+        err => {
+            this.registerForm.controls["confirmPassword"].setErrors({ exist : true });
+            this.loading = false;
+        });
   }
 
   logout() {

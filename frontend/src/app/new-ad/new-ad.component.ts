@@ -1,22 +1,21 @@
-import { Component, OnInit }      from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef }      from '@angular/core';
 import { Router, ActivatedRoute}  from "@angular/router";
 import { FormBuilder, FormGroup}  from "@angular/forms";
 import { FormControl, Validators} from "@angular/forms";
 
-import { AdModel }                from '../ad.model';
-import { AdService }              from '../ad.service';
-import { VehicleModel }           from '../vehicle.model';
-import { VehicleService }         from '../vehicle.service';
-import { CarModel }               from '../car.model';
-import { CarService }             from '../car.service';
-import { MakeModel }              from '../make.model';
-import { MakeService }            from '../make.service';
-import { ModelService }           from '../model.service';
-import { ModelModel }             from '../model.model';
-import { UploadService }          from '../upload.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { AdModel }                from '../models/ad.model';
+import { AdService }              from '../models/ad.service';
+import { VehicleModel }           from '../models/vehicle.model';
+import { VehicleService }         from '../models/vehicle.service';
+import { CarModel }               from '../models/car.model';
+import { CarService }             from '../models/car.service';
+import { MakeModel }              from '../models/make.model';
+import { MakeService }            from '../models/make.service';
+import { ModelService }           from '../models/model.service';
+import { ModelModel }             from '../models/model.model';
+import { UploadService }          from '../models/upload.service';
+import { CommonService }          from '../models/config'
 
-//import * as $ from 'jquery';
 declare var $: any;
 
 @Component({
@@ -27,35 +26,34 @@ declare var $: any;
 
 export class NewAdComponent implements OnInit {
 
-  user_id      : string;
-  car_id       : string;
-  ad           : AdModel;
-  vehicle      : VehicleModel;
-  car          : CarModel;
+  user_id       : string;
+  car_id        : string;
+  ad            : AdModel;
+  vehicle       : VehicleModel;
+  car           : CarModel;
 
-  makes        : MakeModel[];
-  models       : ModelModel[];
-  colors       : {};
-  transmissions: {};
-  years        : number[];
-  fueltypes    : {};
-  conditions   : {};
-  features     : {};
-  selectedMake : string;
-  selFeatures  : any [];
+  makes         : MakeModel[];
+  models        : ModelModel[];
+  colors        : {};
+  transmissions : {};
+  years         : number[];
+  fueltypes     : {};
+  conditions    : {};
+  features      : {};
+  selectedMake  : string;
+  selFeatures   : any [];
 
-  newForm      : FormGroup;
-  uploadForm   : FormGroup;
+  newForm       : FormGroup;
+  uploadForm    : FormGroup;
 
-  imgfile      : string;
+  imgFiles      : string[];
+  previewImgFile: string;
   
   submitted = false;
   
   error: string;
   uploadResponse = { status: '', message: '', filePath: '' };
   
-  baseurl: string = "http://localhost:3000";
-
   constructor(private formBuilder   : FormBuilder, 
               private adService     : AdService, 
               private vehicleService: VehicleService, 
@@ -63,115 +61,49 @@ export class NewAdComponent implements OnInit {
               private makeService   : MakeService, 
               private modelService  : ModelService,
               private uploadService : UploadService,
+              private commonService : CommonService,
+              private cdRef         : ChangeDetectorRef,
               private route         : ActivatedRoute,
               private router        : Router) { }
   ngOnInit() {
 
-    this.makes   = [
-      {
-        "id"    : "-Lg0ae0f-ovBtrTVPDIH",
-        "value" : "MakeValue1"
-      },
-      {
-        "id"    : "-Lg0ae0f-ovBtrTVPDII",
-        "value" : "MakeValue2"
-      }
-    ];
+    this.getAllMakes();
 
-    this.models   = [
-      {
-        "id"         : "-Lg0ae0f-ovBtrTVPDIH",
-        "make_id"    : "-Lg0ae0f-ovBtrTVPDIH",
-        "modelvalue" : "ModelModelValue11"
-      },
-      {
-        "id"         : "-Lg0ae0f-ovBtrTVPDII",
-        "make_id"    : "-Lg0ae0f-ovBtrTVPDII",
-        "modelvalue" : "ModelModelValue21"
-      },
-      {
-        "id"         : "-Lg0ae0f-ovBtrTVPDIJ",
-        "make_id"    : "-Lg0ae0f-ovBtrTVPDII",
-        "modelvalue" : "ModelModelValue22"
-      }
-    ];
-    
-    this.colors   = [
-      {
-        "id"         : "Red",
-        "value"      : "Red"
-      },
-      {
-        "id"         : "Blue",
-        "value"      : "Blue"
-      },
-      {
-        "id"         : "Green",
-        "value"      : "Green"
-      },
-    ];
-
-    this.transmissions   = [
-      {
-        "id"         : "Transmission1",
-        "value"      : "Transmission1"
-      },
-      {
-        "id"         : "Transmission2",
-        "value"      : "Transmission2"
-      }
-    ];
-
-    this.years   = [
+    this.years = [
+      2015,
+      2016,
       2017,
       2018,
       2019,
       2020
     ];
-    
-    this.fueltypes   = [
-      {
-        "id"         : "Fueltype1",
-        "value"      : "Fueltype1"
-      },
-      {
-        "id"         : "Fueltype2",
-        "value"      : "Fueltype2"
-      }
-    ];
-    
-    this.conditions   = [
-      {
-        "id"         : "Condition1",
-        "value"      : "Condition1"
-      },
-      {
-        "id"         : "Condition2",
-        "value"      : "Condition2"
-      }
+
+    this.fueltypes = [
+      "Fueltype1",
+      "Fueltype2"
     ];
 
-    this.features   = [
-      {
-        "id"         : "4 Wheel Drive",
-        "value"      : "4 Wheel Drive"
-      },
-      {
-        "id"         : "Cruise Control",
-        "value"      : "Cruise Control"
-      },
-      {
-        "id"         : "Bluetooth System",
-        "value"      : "Bluetooth System"
-      },
-      {
-        "id"         : "Air Conditioner",
-        "value"      : "Air Conditioner"
-      },
-      {
-        "id"         : "Other Feature",
-        "value"      : "Other Feature"
-      }
+    this.conditions = [
+      "Condition1",
+      "Condition2"
+    ];
+
+    this.transmissions = [
+      "Transmission1",
+      "Transmission2"
+    ];
+
+    this.colors = [
+      "Red",
+      "Green",
+      "Blue"
+    ];
+
+    this.features = [
+      "4 Wheel Drive",
+      "Cruise Control",
+      "Bluetooth System",
+      "Air Conditioner"
     ];
 
     this.newForm = this.formBuilder.group({
@@ -193,8 +125,6 @@ export class NewAdComponent implements OnInit {
 
     this.user_id = this.route.snapshot.paramMap.get('user_id');
 
-    //this.getAllMakes();
-
     let self = this;
 
     $(document).ready(function() {
@@ -212,36 +142,11 @@ export class NewAdComponent implements OnInit {
         $('input[type="checkbox"]:checked').each(function() {
           self.selFeatures[index] = this.value; index++;
         });
-        self.onSubmit();
+        self.onSubmit();      
 
-        /*
-
-        var form_action = $(this).attr("action");
-
-        var type = $(this).find("#type").val();
-        var make = $(this).find("#make").val();
-        var model = $(this).find("#model").val();
-        var color = $(this).find("#color").val();
-        var mile = $(this).find("#mile").val();
-        var fuel = $(this).find("#fuel").val();
-        var trans = $(this).find("#trans").val();
-        var engine = $(this).find("#engine").val();
-        var description = $(this).find("#description").val();
-        
-        var features_4wheel = $(this).find(".features_4wheel").prop('checked');
-        var features_cruise = $(this).find(".features_cruise").prop('checked');
-        var features_bluetooth = $(this).find(".features_bluetooth").prop('checked');
-        var features_air = $(this).find(".features_air").prop('checked');
-        
-        $.ajax({
-          dataType: 'json',
-          type:'POST',
-          url: form_action,
-          data:{type:type, make:make, model:model, color:color, mile:mile, fuel:fuel, trans:trans, engine:engine, description: description,features_4wheel:features_4wheel,features_cruise:features_cruise,features_bluetooth:features_bluetooth,features_air:features_air}
-        }).done(function(data){ alert('success');
-          //toastr.success('Created Successfully.', 'Success Alert', {timeOut: altTimeOut});
+        /*$("body").on("click", ".uploadPhotoBox-delete", function() {
+          $(this).closest('.uploadPhotoBox-item').css('display', 'none');
         });*/
-
       });
     });
   }
@@ -254,6 +159,7 @@ export class NewAdComponent implements OnInit {
     this.makeService.getAllMakes().subscribe(data=>{
 
       this.makes = data;
+      setTimeout("$('.selectpicker').selectpicker('refresh')", 0);
 
     });
   };
@@ -262,6 +168,7 @@ export class NewAdComponent implements OnInit {
     this.modelService.getAllModelByMakeId(make_id).subscribe(data=>{
 
       this.models = data;
+      setTimeout("$('.selectpicker').selectpicker('refresh')", 0);
 
     });
   }
@@ -294,7 +201,6 @@ export class NewAdComponent implements OnInit {
   onFileChange(event) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      //console.log(file);
       this.uploadForm.get('carimg').setValue(file);
     }
   }
@@ -303,43 +209,46 @@ export class NewAdComponent implements OnInit {
     const formData = new FormData();
     formData.append('file', this.uploadForm.get('carimg').value);
     
-    console.log(this.car_id);
     this.uploadService.upload(formData, this.car_id).subscribe(
       data => {
         if(data.success == true) {
-          
-          this.imgfile = this.baseurl + "/uploads/cars/" + data.filename;
-
-          //data.filename = "nwpSgvkbVn4p1FEzGonj-1.png";
-          //this.imgfile = "http://localhost:4200/assets/uploads/cars/BnnZnul0fjB2fkLLTAIB-1.png";
-          console.log(this.imgfile);
-          /*var html =`
-            <div class="uploadPhotoBox-item">
-							<div class="uploadPhotoBox-image">
-								<img src="` + this.imgfile + `" />
-							</div>
-							<button class="uploadPhotoBox-delete">Delete</button>
-						</div>
-          `;*/
-
-          //$("#uploadPhotoBoxItem-container").html(html);
-          //$("#uploadPhotoBox-preview").find("img").attr('src', this.imgfile);
-          
+          this.getCarAloneById(this.car_id);          
         }
       }
-            
-      //(res) => this.uploadResponse = res,
-      //(err) => this.error = err
     );   
+  }
+
+  onDeleteSubmit(imgFile:string){
+    let pathArray = imgFile.split("/");
+    let imgFileName = pathArray[pathArray.length - 1];
+
+    this.carService.updateCarImageById(this.car_id, imgFileName)
+      .subscribe( (data) => {
+        this.getCarAloneById(this.car_id);
+      });
   }
 
   // get the form short name to access the form fields
   get f() { return this.newForm.controls; }
   
+  getCarAloneById(car_id:string) {
+    this.carService.getCarAloneById(car_id)
+    .subscribe( (data:CarModel) => {
+      let imgFiles = [];
+      this.imgFiles = [];
+      this.previewImgFile = "";
+
+      imgFiles = JSON.parse(data.imgfiles);
+      for(let i = 0; i < imgFiles.length; i++) {
+        this.imgFiles[i] = this.commonService.baseurl + "/uploads/cars/" + imgFiles[i];
+        if(i == 0) this.previewImgFile = this.imgFiles[0];
+      }
+    });
+  }
+
   addAd(){
     this.adService.addAd(this.ad)
       .subscribe( (data:AdModel) => {
-        //console.log(data);
         
         this.vehicle = {
           id          : '',
@@ -360,8 +269,7 @@ export class NewAdComponent implements OnInit {
   addVehicle(){
     this.vehicleService.addVehicle(this.vehicle)
       .subscribe( (data:VehicleModel) => {
-        //console.log(data);
-
+        
         this.car = {
           id           : '',
           vehicle_id   : data.id,
@@ -374,10 +282,9 @@ export class NewAdComponent implements OnInit {
           color        : this.newForm.value.color,
           fueltype     : this.newForm.value.fueltype,
           regionalspecs: 0,
-          imgcount     : 0
+          imgincrement : 0,
+          imgfiles     : '[]'
         }
-        console.log(this.car);
-
         this.addCar()
       });
   }
@@ -385,27 +292,8 @@ export class NewAdComponent implements OnInit {
   addCar(){
     this.carService.addCar(this.car)
       .subscribe( (data:CarModel) => {
-        console.log(data);
         this.car_id = data.id;
       });
   }
-
-  /*addCar(): void {
-    this.router.navigate(['add-car']);
-  }
-
-  deleteCar(car: CarModel){
-    
-    this.carService.deleteCar(car.id).subscribe(data=>{
-      console.log(data);
-      this.getAllCar();
-    });
-  }
-
-  updateCar(car: CarModel){
-    localStorage.removeItem("carId");
-    localStorage.setItem("carId", car.id);
-    this.router.navigate(['edit-car']);
-  }*/
 
 }

@@ -10,5 +10,6 @@ export class CarModel {
     color           : string;
     fueltype        : number;
     regionalspecs   : number;
-    imgcount        : number;
+    imgincrement    : number;
+    imgfiles        : string;
 }

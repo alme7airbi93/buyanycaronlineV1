@@ -13,6 +13,9 @@ module.exports = (app) => {
     // Retrieve a single Car with ad_id
     app.get('/cars/ad/:id', cars.findOneByAdId);
 
+    // Retrieve a single Car alone with car_id
+    app.get('/cars/alone/:id', cars.findAloneOne);
+
     // Retrieve searched Cars on search page
     app.post('/cars/search', cars.findAllOnSearch);
 
@@ -21,6 +24,9 @@ module.exports = (app) => {
 
     // Update a Car with id
     app.put('/cars/:id', cars.update);
+
+    // Update a Car image with id
+    app.put('/cars/img/:id', cars.updateImage);
 
     // Delete a Car with id
     //app.delete('/cars/:id', cars.delete);

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpErrorResponse, HttpEventType } from  '@angular/common/http';
 import { map } from  'rxjs/operators';
+import { CommonService } from './config';
 
 @Injectable({
   providedIn: 'root'
@@ -8,9 +9,11 @@ import { map } from  'rxjs/operators';
 
 export class UploadService {
 
-  SERVER_URL: string = "http://localhost:3000/cars/upload/";
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient,
+    private commonService: CommonService) { }
 
+  SERVER_URL: string = this.commonService.baseurl + "/cars/upload/";
+  
   public upload(data, car_id) {
     let uploadURL = `${this.SERVER_URL}`;
     

@@ -44,7 +44,7 @@ exports.findAll = (req, res) => {
             res.json(billinginfos);
         })
         .catch((err) => {
-            res.status(500).send({
+            return res.status(500).send({
                 message: err.message || "Something wrong while retrieving billinginfos."
             });
         });
@@ -55,7 +55,7 @@ exports.findOne = (req, res) => {
 
     // Request validation
     if(!req.body) {
-        res.status(400).send({
+        return res.status(400).send({
             message: "BillingInfo content can not be empty"
         });
     }
@@ -66,7 +66,7 @@ exports.findOne = (req, res) => {
             res.json(billinginfo);
         })
         .catch((err) => {
-            res.status(500).send({
+            return res.status(500).send({
                 message: err.message || "Something wrong while retrieving billinginfo with id."
             });
         });     
@@ -77,7 +77,7 @@ exports.update2 = (req, res) => {
     
     // Request validation
     if(!req.body) {
-        res.status(400).send({
+        return res.status(400).send({
             message: "BillingInfo content can not be empty"
         });
     }
@@ -89,13 +89,13 @@ exports.update2 = (req, res) => {
     doc.update(billinginfo)
         .then(data => {
             if(!data) {
-                res.status(404).send({
+                return res.status(404).send({
                     message: "BillingInfo not found with id " + req.params.id
                 });
             }
             res.send({message: "BillingInfo updated successfully!"});
         }).catch(err => {
-            res.status(500).send({
+            return res.status(500).send({
                 message: err.message || "Could not delete billinginfo with id " + req.params.id
             });
         });
@@ -103,11 +103,9 @@ exports.update2 = (req, res) => {
 
 // Update a billinginfo with a field name
 exports.update = (req, res) => {
-    console.log(req.params.id);
-    console.log(req.body);
     // Request validation
     if(!req.body) {
-        res.status(400).send({
+        return res.status(400).send({
             message: "BillingInfo content can not be empty"
         });
     }
@@ -119,13 +117,13 @@ exports.update = (req, res) => {
     doc.update(billinginfo)
         .then(data => {
             if(!data) {
-                res.status(404).send({
+                return res.status(404).send({
                     message: "BillingInfo not found with id " + req.params.id
                 });
             }
             res.send({message: "BillingInfo updated successfully!"});
         }).catch(err => {
-            res.status(500).send({
+            return res.status(500).send({
                 message: err.message || "Could not delete billinginfo with id " + req.params.id
             });
         });
@@ -136,7 +134,7 @@ exports.delete = (req, res) => {
 
     // Request validation
     if(!req.body) {
-        res.status(400).send({
+        return res.status(400).send({
             message: "BillingInfo content can not be empty"
         });
     }
@@ -144,13 +142,13 @@ exports.delete = (req, res) => {
     db.collection('billinginfos').doc(req.params.id).delete()
         .then(data => {
             if(!data) {
-                res.status(404).send({
+                return res.status(404).send({
                     message: "BillingInfo not found with id " + req.params.id
                 });
             }
             res.send({message: "BillingInfo deleted successfully!"});
         }).catch(err => {
-            res.status(500).send({
+            return res.status(500).send({
                 message: err.message || "Could not delete billinginfo with id " + req.params.id
             });
         });
