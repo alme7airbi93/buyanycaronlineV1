@@ -2,15 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from "@angular/router";
 import { FormBuilder, FormGroup, FormControl, Validators } from "@angular/forms";
 
-import { CarModel } from '../models/car.model';
-import { CarService } from '../models/car.service';
+import { CarModel } from '../modules/car.model';
+import { CarService } from '../modules/car.service';
 
-import { MakeModel } from '../models/make.model';
-import { MakeService } from '../models/make.service';
+import { MakeModel } from '../modules/make.model';
+import { MakeService } from '../modules/make.service';
 
-import { ModelService } from '../models/model.service';
-import { ModelModel } from '../models/model.model';
-import { CommonService }      from '../models/config'
+import { ModelService } from '../modules/model.service';
+import { ModelModel } from '../modules/model.model';
+import { CommonService } from '../modules/config'
 
 declare var $: any;
 
@@ -46,27 +46,10 @@ export class CarSearchComponent implements OnInit {
 
     this.getAllMakes();
 
-    this.fromYears = [
-      2015,
-      2016,
-      2017,
-      2018,
-      2019,
-      2020
-    ];
-
-    this.toYears    = this.fromYears;
-    this.fromPrices = [
-      5000,
-      10000,
-      20000
-    ];
-
-    this.toPrices   = [
-      100000,
-      200000,
-      500000
-    ];
+    this.fromYears    = this.commonService.years;
+    this.toYears      = this.commonService.years;
+    this.fromPrices   = this.commonService.fromPrices;
+    this.toPrices     = this.commonService.toPrices;
 
     this.findForm = this.formBuilder.group({
       make:       ['', Validators.required],

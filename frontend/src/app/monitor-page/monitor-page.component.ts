@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 
 import { Router }            from "@angular/router";
 
-import { AdModel }           from '../models/ad.model';
-import { AdService }         from '../models/ad.service';
-import { VehicleModel }      from '../models/vehicle.model';
-import { VehicleService }    from '../models/vehicle.service';
-import { CarModel }          from '../models/car.model';
-import { CarService }        from '../models/car.service';
-import { CommonService }          from '../models/config'
+import { AdModel }           from '../modules/ad.model';
+import { AdService }         from '../modules/ad.service';
+import { VehicleModel }      from '../modules/vehicle.model';
+import { VehicleService }    from '../modules/vehicle.service';
+import { CarModel }          from '../modules/car.model';
+import { CarService }        from '../modules/car.service';
+import { CommonService }          from '../modules/config'
 
 declare var $: any;
 

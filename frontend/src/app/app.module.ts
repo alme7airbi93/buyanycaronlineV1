@@ -6,8 +6,8 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { CarService } from './models/car.service';
-import { CommonService } from './models/config'
+import { CarService } from './modules/car.service';
+import { CommonService } from './modules/config'
 
 import { IndexComponent } from './index/index.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';

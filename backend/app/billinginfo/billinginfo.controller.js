@@ -1,5 +1,5 @@
 const admin        = require('firebase-admin');
-const date         = require('./date');
+const date         = require('../common/date');
 const db           = admin.firestore();
 
 //Create new billinginfo

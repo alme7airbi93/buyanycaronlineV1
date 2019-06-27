@@ -1,6 +1,6 @@
 var admin = require("firebase-admin");
 var db = admin.firestore();
-var date = require("./date");
+var date = require("../common/date");
 
 //Create new ad
 exports.create = (req, res) => {

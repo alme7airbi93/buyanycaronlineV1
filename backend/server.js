@@ -40,10 +40,10 @@ admin.initializeApp({
   databaseURL: "https://anycaronline-8bf60.firebaseio.com"
 });
 
-require('./app/user.routes')(app);
-require('./app/billinginfo.routes')(app);
-require('./app/ad.routes')(app);
-require('./app/vehicle.routes')(app);
-require('./app/car.routes')(app);
-require('./app/make.routes')(app);
-require('./app/model.routes')(app);
+require('./app/user/user.routes')(app);
+require('./app/billinginfo/billinginfo.routes')(app);
+require('./app/ad/ad.routes')(app);
+require('./app/vehicle/vehicle.routes')(app);
+require('./app/car/car.routes')(app);
+require('./app/make/make.routes')(app);
+require('./app/model/model.routes')(app);

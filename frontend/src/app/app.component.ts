@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { UserModel } from './models/user.model';
-import { UserService } from './models/user.service';
+import { UserModel } from './modules/user.model';
+import { UserService } from './modules/user.service';
 import { AuthenticationService } from './auth/authentication.service';
 import { ConditionalExpr } from '@angular/compiler';
-import { BillingInfoModel } from './models/billinginfo.model';
+import { BillingInfoModel } from './modules/billinginfo.model';
 declare var $: any;
 
 @Component({

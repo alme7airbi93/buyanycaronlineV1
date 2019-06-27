@@ -1,11 +1,11 @@
 const admin     = require('firebase-admin');
 const jwt       = require('jsonwebtoken');
 const bcrypt    = require('bcryptjs');
-const config    = require('./config.json');
-const date      = require('./date');
+const config    = require('../common/config.json');
+const date      = require('../common/date');
 const db        = admin.firestore();
 
-const billingInfo = require('./billinginfo.controller');
+const billingInfo = require('../billinginfo/billinginfo.controller');
 
 //Create new user
 exports.create = async (req, res) => {

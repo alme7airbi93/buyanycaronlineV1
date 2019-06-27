@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 
-import { CarService } from '../models/car.service';
-import { CommonService }      from '../models/config'
+import { CarService } from '../modules/car.service';
+import { CommonService }      from '../modules/config'
 
 declare var $: any;
 

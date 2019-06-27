@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { FormBuilder, FormGroup, FormControl, Validators } from "@angular/forms";
 
-import { CarService } from '../models/car.service';
+import { CarService } from '../modules/car.service';
 import { AuthenticationService } from '../auth/authentication.service';
-import { UserModel } from '../models/user.model';
-import { MakeModel } from '../models/make.model';
-import { MakeService } from '../models/make.service';
-import { ModelService } from '../models/model.service';
-import { ModelModel } from '../models/model.model';
+import { UserModel } from '../modules/user.model';
+import { MakeModel } from '../modules/make.model';
+import { MakeService } from '../modules/make.service';
+import { ModelService } from '../modules/model.service';
+import { ModelModel } from '../modules/model.model';
+import { CommonService } from '../modules/config'
 
 //import * as $ from 'jquery';
 declare var $: any;
@@ -43,6 +44,7 @@ export class IndexComponent implements OnInit {
       private carService: CarService, 
       private makeService: MakeService, 
       private modelService: ModelService,
+      private commonService : CommonService,
       private router: Router){
 
         this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
@@ -50,72 +52,17 @@ export class IndexComponent implements OnInit {
       }
   ngOnInit() {
     
-    this.motors   = [
-      {
-        "id"    : "cars",
-        "value" : "CAR"
-      },
-      {
-        "id"    : "boats",
-        "value" : "BOAT"
-      },
-      {
-        "id"    : "motorcycles",
-        "value" : "MOTORCYCLE"
-      },
-      {
-        "id"    : "heavyvehicles",
-        "value" : "HEAVYVEHICLE"
-      },
-      {
-        "id"    : "numberplates",
-        "value" : "NUMBERPLATE"
-      }
-    ];
+    this.motors       = this.commonService.motors;
+    this.fromYears    = this.commonService.years;
+    this.toYears      = this.commonService.years;
+    this.fromPrices   = this.commonService.fromPrices;
+    this.toPrices     = this.commonService.toPrices;
+    this.fueltypes    = this.commonService.fueltypes;
+    this.conditions   = this.commonService.conditions;
+    this.transmissions= this.commonService.transmissions;
+    this.colors       = this.commonService.colors;
 
     this.getAllMakes();
-
-    this.fromYears = [
-      2015,
-      2016,
-      2017,
-      2018,
-      2019,
-      2020
-    ];
-    this.toYears    = this.fromYears;
-
-    this.fromPrices = [
-      5000,
-      10000,
-      20000];
-
-    this.toPrices   = [
-      100000,
-      200000,
-      500000
-    ];
-
-    this.fueltypes = [
-      "Fueltype1",
-      "Fueltype2"
-    ];
-
-    this.conditions = [
-      "Condition1",
-      "Condition2"
-    ];
-
-    this.transmissions = [
-      "Transmission1",
-      "Transmission2"
-    ];
-
-    this.colors = [
-      "Red",
-      "Green",
-      "Blue"
-    ];
 
     this.findForm = this.formBuilder.group({
       motor:       ['cars', Validators.required],

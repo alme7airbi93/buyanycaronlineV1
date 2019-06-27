@@ -3,18 +3,18 @@ import { Router, ActivatedRoute}  from "@angular/router";
 import { FormBuilder, FormGroup}  from "@angular/forms";
 import { FormControl, Validators} from "@angular/forms";
 
-import { AdModel }                from '../models/ad.model';
-import { AdService }              from '../models/ad.service';
-import { VehicleModel }           from '../models/vehicle.model';
-import { VehicleService }         from '../models/vehicle.service';
-import { CarModel }               from '../models/car.model';
-import { CarService }             from '../models/car.service';
-import { MakeModel }              from '../models/make.model';
-import { MakeService }            from '../models/make.service';
-import { ModelService }           from '../models/model.service';
-import { ModelModel }             from '../models/model.model';
-import { UploadService }          from '../models/upload.service';
-import { CommonService }          from '../models/config'
+import { AdModel }                from '../modules/ad.model';
+import { AdService }              from '../modules/ad.service';
+import { VehicleModel }           from '../modules/vehicle.model';
+import { VehicleService }         from '../modules/vehicle.service';
+import { CarModel }               from '../modules/car.model';
+import { CarService }             from '../modules/car.service';
+import { MakeModel }              from '../modules/make.model';
+import { MakeService }            from '../modules/make.service';
+import { ModelService }           from '../modules/model.service';
+import { ModelModel }             from '../modules/model.model';
+import { UploadService }          from '../modules/upload.service';
+import { CommonService }          from '../modules/config'
 
 declare var $: any;
 
@@ -69,42 +69,12 @@ export class NewAdComponent implements OnInit {
 
     this.getAllMakes();
 
-    this.years = [
-      2015,
-      2016,
-      2017,
-      2018,
-      2019,
-      2020
-    ];
-
-    this.fueltypes = [
-      "Fueltype1",
-      "Fueltype2"
-    ];
-
-    this.conditions = [
-      "Condition1",
-      "Condition2"
-    ];
-
-    this.transmissions = [
-      "Transmission1",
-      "Transmission2"
-    ];
-
-    this.colors = [
-      "Red",
-      "Green",
-      "Blue"
-    ];
-
-    this.features = [
-      "4 Wheel Drive",
-      "Cruise Control",
-      "Bluetooth System",
-      "Air Conditioner"
-    ];
+    this.years        = this.commonService.years;
+    this.fueltypes    = this.commonService.fueltypes;
+    this.conditions   = this.commonService.conditions;
+    this.transmissions= this.commonService.transmissions;
+    this.colors       = this.commonService.colors;
+    this.features     = this.commonService.features;
 
     this.newForm = this.formBuilder.group({
       title:       ['', Validators.required],

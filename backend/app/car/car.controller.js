@@ -1,7 +1,7 @@
 const admin = require("firebase-admin");
 const db = admin.firestore();
 const path = require('path');
-const date = require("./date");
+const date = require("../common/date");
 const fs = require('fs')
 
 //Upload a image file

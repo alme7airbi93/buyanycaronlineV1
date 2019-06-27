@@ -4,12 +4,12 @@ import { FormBuilder}         from "@angular/forms";
 import { FormGroup}           from "@angular/forms";
 import { ActivatedRoute }     from "@angular/router";
 
-import { UserModel }          from '../models/user.model';
-import { UserService }        from '../models/user.service';
-import { BillingInfoModel }   from '../models/billinginfo.model';
-import { BillingInfoService } from '../models/billinginfo.service';
-import { AdModel }            from '../models/ad.model';
-import { AdService }          from '../models/ad.service';
+import { UserModel }          from '../modules/user.model';
+import { UserService }        from '../modules/user.service';
+import { BillingInfoModel }   from '../modules/billinginfo.model';
+import { BillingInfoService } from '../modules/billinginfo.service';
+import { AdModel }            from '../modules/ad.model';
+import { AdService }          from '../modules/ad.service';
 
 declare var $: any;
 
@@ -52,6 +52,11 @@ export class UserProfileComponent implements OnInit {
 
         var text = fvalue;
         if (fname == 'password') {
+
+          if(!confirm("Are you sure to change the password?")) {
+            return;
+          }
+
           let value = "";
           for (let i = 0; i < fvalue.length; i++)
             value = value + "*";
@@ -87,6 +92,12 @@ export class UserProfileComponent implements OnInit {
       })
     });
 
+  }
+
+  onClickMethod() {
+    if(confirm("Are you sure to delete?")) {
+      console.log("Implement delete functionality here");
+    }
   }
 
   getUserById(id : string){
