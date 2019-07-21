@@ -165,6 +165,13 @@ export class ManageAdComponent implements OnInit {
       });
   }
 
+  onPublishSubmit() {
+    this.adService.updateAd(this.car.ad_id, 'publish', 'true').subscribe(
+      data => {
+      }
+    );   
+  }
+
   getAllMakes(): void {
     this.makeService.getAllMakes().subscribe(data=>{
 

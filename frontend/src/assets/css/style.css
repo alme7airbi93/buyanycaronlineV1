@@ -39,26 +39,76 @@ body {
 	color:  rgba(255, 255, 255, .8);
 }
 
-.ad-input {
-	width:100%;
-	border:0px;
-	border-bottom:1px solid rgba(255, 255, 255, .6);
-	background:black;
-	color: rgba(255, 255, 255, .8);
-	font: normal normal normal 16px/1 FontAwesome;
-}
-
-.ad-input::placeholder {
-	color:  rgba(255, 255, 255, .8);
-}
-
-
 .ba-textarea {
 	width:90%;
 	border:1px solid rgba(255, 255, 255, .5);
 	background:black;
 	color:white;
 	line-height:15px;
+	padding:0px;
+}
+
+.ad-input {
+	width:100% !important;
+	border:0px !important;
+	border-bottom:1px solid rgba(255, 255, 255, .6) !important;
+	background:black !important;
+	color: rgba(255, 255, 255, .8) !important;
+	font: normal normal normal 16px/1 FontAwesome !important;
+	height: 16px;
+	padding: 0px !important;
+}
+
+.ad-input::placeholder {
+	color:  rgba(255, 255, 255, .8);
+	font: normal normal normal 16px/1 FontAwesome !important;
+	height: 16px !important;
+	padding : 0px !important;
+}
+
+.ad-textarea {
+	width:100% !important;
+	border:0px !important;
+	border-bottom:1px solid rgba(255, 255, 255, .6) !important;
+	background:black !important;
+	color: rgba(255, 255, 255, .8) !important;
+	font: normal normal normal 16px/1 FontAwesome !important;
+	padding:0px;
+}
+
+.modal-dialog-loader {
+	border: 7px solid #f3f3f3; /* Light grey */
+	border-top: 7px solid #d11717; /* Blue */
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+	position:absolute;
+	left:50%;
+	top:50%;
+	margin-top:-25px;
+	margin-left:-25px;
+	animation: spin 1.5s linear infinite;
+	z-index: 9999;
+}
+
+.loader {
+	border: 7px solid #f3f3f3; /* Light grey */
+	border-top: 7px solid #d11717; /* Blue */
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+	position:absolute;
+	left:50%;
+	top:300px;
+	margin-top:-25px;
+	margin-left:-25px;
+	animation: spin 1.5s linear infinite;
+	z-index: 9999;
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
 }
 
 a,
@@ -299,6 +349,7 @@ button {
 	border: 0;
 }
 .popup-form .pf-content {
+	position: relative;
 	padding: 20px;
 }
 .popup-form .pf-label {
@@ -1231,13 +1282,16 @@ footer {
 	height: 32px;
 	border: 0;
 	outline: 0;
-	background: rgba(255, 255, 255, .1);
+	background:black !important;
 	color: rgba(255, 255, 255, .55);
 	border-radius: 0;
 	font-size: 12px;
 	padding: 0px;
 	padding-left: 14px;
 	padding-right: 24px;
+}
+#nap-container #vehicleDetails-box .hf-select .is-invalid {
+	padding-right:0px;
 }
 #nap-container #vehicleDetails-box .hf-select .filter-option-inner {
 	padding-right: 3px;
@@ -1676,6 +1730,34 @@ footer {
 
 #map-container .PhotoBox-delete:hover{
 	background: #b01b1c;
+}
+
+
+#map-container #publishButton-container{
+	background-color: rgba(22, 30, 33, 1);
+	border: 1px solid rgb(36, 49, 54);
+	padding: 20px;
+}
+#map-container #publishButton{
+	text-transform: uppercase;
+	padding: 12px 0px;
+	font-weight: 700;
+	color: #fff !important;
+	white-space: normal;
+	background-color: #d11717;
+	text-decoration: none !important;
+	outline: 0 !important;
+	visibility: visible;
+	border: 0;
+	font-size: 14px;
+	line-height: 14px;
+	cursor: pointer;
+	display: inline-block;
+	box-shadow: 0 2px 0 #b11313;
+	border-radius: 3px;
+	letter-spacing: .3px;
+	width: 150px;
+	margin: 0px;
 }
 
 @media screen and (max-width: 992px) {

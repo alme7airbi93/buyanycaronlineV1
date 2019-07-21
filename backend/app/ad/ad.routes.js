@@ -15,6 +15,9 @@ module.exports = (app) => {
 
     // Update a Ad with id
     app.put('/ads/:id', ads.update);
+    
+    // Update to increase the Ad's visit count with id
+    app.put('/ads/increase/:id', ads.increaseVisitCount);
 
     // Delete a Ad with id
     app.delete('/ads/:id', ads.delete);

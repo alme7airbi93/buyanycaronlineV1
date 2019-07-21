@@ -83,10 +83,13 @@ export class AppComponent {
     }
 
     this.loading = true;
+    $('.modal-dialog-loader').show();
+
     this.authenticationService.login(this.fLogin.username.value, this.fLogin.password.value)
       .pipe(first())
       .subscribe(
         (data:UserModel) => {
+          $('.modal-dialog-loader').hide();
           $('#loginPopup').modal('toggle');
           if (data.type == 'ADMIN')
             this.router.navigate(["/monitor-page"]);
@@ -94,6 +97,7 @@ export class AppComponent {
             this.router.navigate(['/user-profile/' + data.id]);
         },
         err => {
+          $('.modal-dialog-loader').hide();
           this.loginForm.controls["password"].setErrors({ incorrect : true });
           this.loading = false;
         });
@@ -101,25 +105,28 @@ export class AppComponent {
 
   onRegisterSubmit() {
     this.submitted = true;
-
+    
     if (this.registerForm.invalid) {
       return;
     }
     
     this.loading = true;
+    $('.modal-dialog-loader').show();
 
     this.userService.addUser(this.registerForm.value)
       .pipe(first())
       .subscribe(
         (user:UserModel) => {
+          $('.modal-dialog-loader').hide();
           if (user && user.token) {
             $('#registerPopup').modal('toggle');
             $('#loginPopup').modal('toggle');
           }
         },
         err => {
-            this.registerForm.controls["confirmPassword"].setErrors({ exist : true });
-            this.loading = false;
+          $('.modal-dialog-loader').hide();
+          this.registerForm.controls["confirmPassword"].setErrors({ exist : true });
+          this.loading = false;
         });
   }
 

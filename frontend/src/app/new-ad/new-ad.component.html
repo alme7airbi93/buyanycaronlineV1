@@ -11,16 +11,23 @@
 							</div>
 							<div class="col-md-12 col-sm-12">
 								<div class="hf-label" style="">TITLE</div>
-								<input formControlName = "title" class = "ad-input" type = "text" placeholder = "Enter title"/>
+								<input formControlName = "title" class = "form-control ad-input" type = "text" [ngClass]="{ 'is-invalid': submitted && fNew.title.errors }" placeholder = "Enter title"/>
+								<div *ngIf="submitted && fNew.title.errors" class="invalid-feedback">
+									<div *ngIf="fNew.title.errors.required">Title is required</div>
+								</div>
 							</div>
 							<div class="col-md-12 col-sm-12">
 								<div class="hf-label" style="">PRICE</div>
-								<input formControlName = "price" class = "ad-input" type = "text" placeholder = "Enter price"/>
+								<input formControlName = "price" class = "form-control ad-input" type = "text" [ngClass]="{ 'is-invalid': submitted && fNew.price.errors }" placeholder = "Enter price"/>
+								<div *ngIf="submitted && fNew.price.errors" class="invalid-feedback">
+									<div *ngIf="fNew.price.errors.required">Price is required</div>
+								</div>
 							</div>
 							<div class="col-md-12 col-sm-12">
 								<div class="hf-label" style="">DESCRIPTION</div>
-								<div class="hf-select">
-									<textarea formControlName="description" cols="30" rows="10" aria-invalid="false" placeholder="Enter description" class="ad-input" id = "description"></textarea>
+								<textarea formControlName="description" class="form-control ad-textarea" cols="30" rows="10" aria-invalid="false" [ngClass]="{ 'is-invalid': submitted && fNew.description.errors }" placeholder="Enter description" id = "description"></textarea>
+								<div *ngIf="submitted && fNew.description.errors" class="invalid-feedback">
+									<div *ngIf="fNew.description.errors.required">Description is required</div>
 								</div>
 							</div>
 						</div>
@@ -35,58 +42,79 @@
 							<div class="col-md-12 col-sm-12">
 								<div class="hf-label" style="">MAKE</div>
 								<div class="hf-select">
-									<select formControlName = "make_id" class = "selectpicker" (change) = "onMakeChange($event)" title="SELECT NAME" data-width="100%">
+									<select formControlName = "make_id" class = "form-control selectpicker" [ngClass]="{ 'is-invalid': submitted && fNew.make_id.errors }" (change) = "onMakeChange($event)" title="SELECT NAME" data-width="100%">
 										<option *ngFor =  "let make of makes" [value] = "make.id">{{make.value}}</option>
 									</select>
+									<div *ngIf="submitted && fNew.make_id.errors" class="invalid-feedback">
+										<div *ngIf="fNew.make_id.errors.required">Make is required</div>
+									</div>
 								</div>
 							</div>
 							<div class="col-md-12 col-sm-12">
 								<div class="hf-label">MODEL</div>
 								<div class="hf-select">
-									<select formControlName = "model_id" class="selectpicker" title="SELECT MODEL" data-width="100%">
+									<select formControlName = "model_id" class="form-control selectpicker" [ngClass]="{ 'is-invalid': submitted && fNew.model_id.errors }" title="SELECT MODEL" data-width="100%">
 										<option *ngFor="let model of models" [value]="model.id" >{{model.modelvalue}}</option>
 									</select>
+									<div *ngIf="submitted && fNew.model_id.errors" class="invalid-feedback">
+										<div *ngIf="fNew.model_id.errors.required">Model is required</div>
+									</div>
 								</div>
 							</div>
 							<div class="col-md-12 col-sm-12">
 								<div class="hf-label">YEAR</div>
 								<div class="hf-select">
-									<select formControlName = "year" class="selectpicker" title="SELECT YEAR" data-width="100%">
+									<select formControlName = "year" class="form-control selectpicker" [ngClass]="{ 'is-invalid': submitted && fNew.year.errors }" title="SELECT YEAR" data-width="100%">
 										<option *ngFor="let year of years" [value]="year" >{{year}}</option>
 									</select>
-								</div>
+									<div *ngIf="submitted && fNew.year.errors" class="invalid-feedback">
+										<div *ngIf="fNew.year.errors.required">Year is required</div>
+									</div>
+								</div>	
 							</div>
 							<div class="col-md-12 col-sm-12">
 								<div class="hf-label">FUEL TYPE</div>
 								<div class="hf-select">
-									<select formControlName = "fueltype" class="selectpicker" title="SELECT FUELTYPE" data-width="100%">
+									<select formControlName = "fueltype" class="form-control selectpicker" [ngClass]="{ 'is-invalid': submitted && fNew.fueltype.errors }" title="SELECT FUELTYPE" data-width="100%">
 										<option *ngFor="let fueltype of fueltypes" [value]="fueltype" >{{fueltype}}</option>
 									</select>
+									<div *ngIf="submitted && fNew.fueltype.errors" class="invalid-feedback">
+										<div *ngIf="fNew.fueltype.errors.required">Fueltype is required</div>
+									</div>
 								</div>
 							</div>
 							<div class="col-md-12 col-sm-12">
 								<div class="hf-label">CONDITION
 								</div>
 								<div class="hf-select">
-									<select formControlName = "condition" class="selectpicker" title="SELECT CONDITION" data-width="100%">
+									<select formControlName = "condition" class="form-control selectpicker" [ngClass]="{ 'is-invalid': submitted && fNew.condition.errors }" title="SELECT CONDITION" data-width="100%">
 										<option *ngFor="let condition of conditions" [value]="condition" >{{condition}}</option>
 									</select>
+									<div *ngIf="submitted && fNew.condition.errors" class="invalid-feedback">
+										<div *ngIf="fNew.condition.errors.required">Condition is required</div>
+									</div>
 								</div>
 							</div>
 							<div class="col-md-12 col-sm-12">
 								<div class="hf-label">TRANSMISSION</div>
 								<div class="hf-select">
-									<select formControlName = "transmission" class="selectpicker" title="SELECT TRANSMISSION" data-width="100%">
+									<select formControlName = "transmission" class="form-control selectpicker" [ngClass]="{ 'is-invalid': submitted && fNew.transmission.errors }" title="SELECT TRANSMISSION" data-width="100%">
 										<option *ngFor="let transmission of transmissions" [value]="transmission" >{{transmission}}</option>
 									</select>
+									<div *ngIf="submitted && fNew.transmission.errors" class="invalid-feedback">
+										<div *ngIf="fNew.transmission.errors.required">Transmission is required</div>
+									</div>
 								</div>
 							</div>
 							<div class="col-md-12 col-sm-12">
 								<div class="hf-label">COLOR</div>
 								<div class="hf-select">
-									<select formControlName = "color" class="selectpicker" title="SELECT COLOR" data-width="100%">
+									<select formControlName = "color" class="form-control selectpicker" [ngClass]="{ 'is-invalid': submitted && fNew.color.errors }" title="SELECT COLOR" data-width="100%">
 										<option *ngFor="let color of colors" [value]="color" >{{color}}</option>
 									</select>
+									<div *ngIf="submitted && fNew.color.errors" class="invalid-feedback">
+										<div *ngIf="fNew.color.errors.required">Color is required</div>
+									</div>
 								</div>
 							</div>
 							<div class="col-md-12 col-sm-12">
@@ -129,7 +157,7 @@
 					</div>
 				</div>
 				<div id="publishButton-container">
-					<button id="publishButton">Publish</button>
+					<button id="publishButton" (click) = "onPublishSubmit()">Publish</button>
 				</div>
 			</div>
 		</div>

@@ -94,12 +94,6 @@ export class UserProfileComponent implements OnInit {
 
   }
 
-  onClickMethod() {
-    if(confirm("Are you sure to delete?")) {
-      console.log("Implement delete functionality here");
-    }
-  }
-
   getUserById(id : string){
     this.userService.getUserById(id).subscribe((data:UserModel)=>{
       this.user = data;

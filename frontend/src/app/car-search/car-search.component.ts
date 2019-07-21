@@ -44,6 +44,7 @@ export class CarSearchComponent implements OnInit {
               private router: Router) { }
   ngOnInit() {
 
+    $('.loader').show();
     this.getAllMakes();
 
     this.fromYears    = this.commonService.years;
@@ -65,9 +66,13 @@ export class CarSearchComponent implements OnInit {
     localStorage.removeItem("search_params");
 
     if(!search_params) {
+
       this.getAllCar();
+
     } else {
+
       this.getSearchAllCarOnIndex(search_params);
+
     }
 
   }
@@ -83,6 +88,7 @@ export class CarSearchComponent implements OnInit {
   getAllCar(): void {
     this.carService.getAllCar().subscribe(data=>{
 
+      $('.loader').hide();
       this.cars = data;
       for(let i = 0; i < this.cars.length; i++) {
         let imgArray = JSON.parse(this.cars[i].imgfiles);
@@ -110,14 +116,18 @@ export class CarSearchComponent implements OnInit {
     });
   }
   
-  getCarDetailById(car_id : string){
+  getCarDetailById(car_id : string, ad_id : string){
     localStorage.removeItem("car_id");
     localStorage.setItem("car_id", car_id);
+    localStorage.removeItem("ad_id");
+    localStorage.setItem("ad_id", ad_id);
     this.router.navigate(['car-detail']);
   }
 
   getSearchAllCarOnIndex(params: any){
     this.carService.getSearchAllCarOnIndex(params).subscribe( data => {
+      
+      $('.loader').hide();
       this.cars = data;
     });
   }
@@ -131,10 +141,13 @@ export class CarSearchComponent implements OnInit {
 
   onSubmit(){
     this.submitted = true;
-      this.carService.getSearchAllCar(this.findForm.value)
-      .subscribe( data => {
-        this.cars = data;
-      });
+    $('.loader').show();
+    
+    this.carService.getSearchAllCar(this.findForm.value)
+    .subscribe( data => {
+      $('.loader').hide();    
+      this.cars = data;
+    });
   }
 
   // get the form short name to access the form fields

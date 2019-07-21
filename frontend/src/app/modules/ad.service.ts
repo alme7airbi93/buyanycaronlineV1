@@ -32,6 +32,10 @@ export class AdService {
     return this.http.put(this.commonService.baseurl + '/ads/' + id, {fname:fname, fvalue:fvalue});
   }
 
+  increaseVisitCount(id:string){
+    return this.http.put(this.commonService.baseurl + '/ads/increase/' + id, {fname:'visitcount', fvalue:''});
+  }
+
   deleteAd(id: string){
     return this.http.delete(this.commonService.baseurl + '/ads/' + id);
   }

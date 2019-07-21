@@ -122,7 +122,8 @@ exports.findAll = async (req, res) => {
                 });
 
                 car.id = car_id;
-                cars.push(car);
+                if(car.publish == "true")
+                    cars.push(car);
             });
         }
     }
@@ -296,7 +297,8 @@ async function getAllByPrice(req, res, adSnaps) {
                     (fromPrice == "" || fromPrice <= car.price   )  &&
                     (toPrice   == "" || toPrice   >= car.price   )  &&
                     (fromYear  == "" || fromYear  <= car.year    )  &&
-                    (toYear    == "" || toYear    >= car.year    )) 
+                    (toYear    == "" || toYear    >= car.year    )  &&
+                    (car.publish == "true" )) 
 
                 cars.push(car);
             });
@@ -359,7 +361,8 @@ async function getAllByYear(req, res, vehicleSnaps) {
                     (fromPrice == "" || fromPrice <= car.price   )  &&
                     (toPrice   == "" || toPrice   >= car.price   )  &&
                     (fromYear  == "" || fromYear  <= car.year    )  &&
-                    (toYear    == "" || toYear    >= car.year    )) 
+                    (toYear    == "" || toYear    >= car.year    )  &&
+                    (car.publish == "true" ))  
 
                 cars.push(car);
             });
@@ -452,7 +455,8 @@ exports.findAllOnIndex = async (req, res) => {
                     (fromPrice == "" || fromPrice <= car.price   )  &&
                     (toPrice   == "" || toPrice   >= car.price   )  &&
                     (fromYear  == "" || fromYear  <= car.year    )  &&
-                    (toYear    == "" || toYear    >= car.year    )) 
+                    (toYear    == "" || toYear    >= car.year    )  &&
+                    (car.publish == "true" ))  
                 cars.push(car);
             });
         }

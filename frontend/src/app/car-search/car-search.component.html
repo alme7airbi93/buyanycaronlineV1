@@ -1,6 +1,7 @@
 
 <div class="main-content-wrapper">
 	<div class="container" id="sr-container">
+		<div class="loader" style = "display:block;"></div>
 		<div class="row">
 			<div id="findBox-container">
 				<div id="find-box">
@@ -96,7 +97,7 @@
 						</div>
 						<div class="searchResult-info">
 							<div>
-								<a (click)="getCarDetailById(car.id)" class="searchResultInfo-title"> {{car.title}}</a>
+								<a (click)="getCarDetailById(car.id, car.ad_id)" class="searchResultInfo-title"> {{car.title}}</a>
 								<div class="searchResultInfo-price"> {{car.price | currency}}</div>
 							</div>
 							<div>

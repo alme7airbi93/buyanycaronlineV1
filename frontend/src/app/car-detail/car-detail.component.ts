@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 
+
+import { AdModel } from '../modules/ad.model';
+import { AdService } from '../modules/ad.service';
+
 import { CarService } from '../modules/car.service';
 import { CommonService }      from '../modules/config'
 
@@ -16,17 +20,20 @@ export class CarDetailComponent implements OnInit {
 
   car : any;
   slideIndex : number;
+  visitCount : number;
 
   imgFiles      : string[];
   previewImgFile: string;
   features      : string[];
 
   constructor(private carService: CarService,
+              private adService: AdService, 
               private commonService : CommonService,
               private router: Router) { }
   ngOnInit() {
 
     let car_id = localStorage.getItem("car_id");
+    let ad_id = localStorage.getItem("ad_id");
     if(!car_id){
       alert("Something wrong!");
       this.router.navigate(['']);
@@ -35,7 +42,8 @@ export class CarDetailComponent implements OnInit {
     this.car = {};
 
     this.getCarById(car_id);
-
+    this.increaseVisitCount(ad_id);
+    
     $(document).ready(function() {
       
       var slideIndex=0;
@@ -88,6 +96,15 @@ export class CarDetailComponent implements OnInit {
         if(i == 0) this.previewImgFile = this.imgFiles[0];
       }
       this.features = JSON.parse(data.features);
+    });
+  }
+
+  increaseVisitCount(ad_id : string){
+    this.adService.increaseVisitCount(ad_id).subscribe((data:any)=>{
+      this.car = data;
+      if(data.status == "success") {
+        this.visitCount = data.visitCount;
+      }
     });
   }
 }

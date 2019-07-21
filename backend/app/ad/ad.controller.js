@@ -14,6 +14,8 @@ exports.create = (req, res) => {
         city        : req.body.city,
         no          : req.body.no,
         approve     : req.body.approve,
+        publish     : req.body.publish,
+        visitcount  : req.body.visitcount,
         create_at   : date.getDate(),
         update_at   : date.getDate()
     }
@@ -86,8 +88,27 @@ exports.update = (req, res) => {
         var ad = {}
         ad[req.body.fname] = req.body.fvalue;
         var doc = db.collection("ads").doc(req.params.id);
-        doc.update(ad)
+        doc.update(ad);
+        return res.send({message: "Ad updated successfully!"});
     }
+};
+
+// Update a ad
+exports.increaseVisitCount = async (req, res) => {
+    
+    const adSnaps = await db.collection('ads').where('id', '==', req.params.id).get();
+
+    var ad = {}
+    adSnaps.forEach((adDoc) => {
+        ad = adDoc.data();
+        ad.visitcount = ad.visitcount + 1;
+
+        var doc = db.collection("ads").doc(req.params.id);
+        doc.update(ad);
+        return res.send({status: "success", message: "Ad's visit count increased successfully!", visitcount: ad.visitcount});      
+    });
+
+
 };
 
 // Delete a Ad with the specified id in the request

@@ -7,4 +7,6 @@ export class AdModel {
     city        : string;
     no          : number;
     approve     : number;
+    publish     : boolean;
+    visitcount  : number;
 }

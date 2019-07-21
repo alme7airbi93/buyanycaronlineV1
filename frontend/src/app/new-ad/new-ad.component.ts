@@ -102,6 +102,8 @@ export class NewAdComponent implements OnInit {
       $("body").find("#newForm").submit(function(e) {
         
         e.preventDefault();
+        if (!self.onSaveSubmit())
+          return;      
         
         $("#uploadPhoto-box").css("display","block");
         $("#publishButton-container").css("display","block");
@@ -112,7 +114,6 @@ export class NewAdComponent implements OnInit {
         $('input[type="checkbox"]:checked').each(function() {
           self.selFeatures[index] = this.value; index++;
         });
-        self.onSubmit();      
 
         /*$("body").on("click", ".uploadPhotoBox-delete", function() {
           $(this).closest('.uploadPhotoBox-item').css('display', 'none');
@@ -120,6 +121,8 @@ export class NewAdComponent implements OnInit {
       });
     });
   }
+
+  get fNew() { return this.newForm.controls; }
 
   ngAfterViewInit() {
     $('.selectpicker').selectpicker('refresh');
@@ -150,9 +153,14 @@ export class NewAdComponent implements OnInit {
 
   }
 
-  onSubmit(){
+  onSaveSubmit(){
     this.submitted = true;
     
+    if (this.newForm.invalid) {
+      setTimeout("$('.selectpicker').selectpicker('refresh')", 0);
+      return false;
+    }
+
     this.ad = {
         id          : '',
         title       : this.newForm.value.title, 
@@ -161,11 +169,15 @@ export class NewAdComponent implements OnInit {
         user_id     : this.user_id,
         city        : '',
         no          : 0,
-        approve     : 0
+        approve     : 0,
+        publish     : false,
+        visitcount  : 0
     }
     
     this.addAd();
 
+    return true;
+    
   }
 
   onFileChange(event) {
@@ -197,7 +209,14 @@ export class NewAdComponent implements OnInit {
         this.getCarAloneById(this.car_id);
       });
   }
-
+  
+  onPublishSubmit() {
+    
+    this.adService.updateAd(this.vehicle.ad_id, 'publish', 'true').subscribe(
+      data => {
+      }
+    );   
+  }
   // get the form short name to access the form fields
   get f() { return this.newForm.controls; }
   
