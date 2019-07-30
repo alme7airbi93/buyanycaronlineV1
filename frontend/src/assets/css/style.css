@@ -12,19 +12,22 @@ body {
 .invalid-feedback-div{
 	color:#df1d1d;
 }
-.ba-input {
-	width:90%;
-	border:0px;
-	border-bottom:1px solid rgba(255, 255, 255, .6);
-	background:black;
-	color: rgba(255, 255, 255, .8);
-	font: normal normal normal 16px/1 FontAwesome;
+#AccSettings-box .form-control {
+	display:inline;
 }
-
+.ba-input {
+	width:90% !important;
+	border:0px !important;
+	border-bottom:1px solid rgba(255, 255, 255, .6) !important;
+	background:black !important;
+	color: rgba(255, 255, 255, .8) !important;
+	font: normal normal normal 16px/1 FontAwesome !important;
+	height: 16px;
+	padding: 0px !important;
+}
 .ba-input::placeholder {
 	color:  rgba(255, 255, 255, .8);
 }
-
 .ba-select {
 	width:100%;
 	border:0px;
@@ -34,11 +37,9 @@ body {
 	line-height:10px;
 	font: normal normal normal 16px/1 FontAwesome;
 }
-
 .ba-select::placeholder {
 	color:  rgba(255, 255, 255, .8);
 }
-
 .ba-textarea {
 	width:90%;
 	border:1px solid rgba(255, 255, 255, .5);
@@ -47,7 +48,6 @@ body {
 	line-height:15px;
 	padding:0px;
 }
-
 .ad-input {
 	width:100% !important;
 	border:0px !important;
@@ -58,14 +58,12 @@ body {
 	height: 16px;
 	padding: 0px !important;
 }
-
 .ad-input::placeholder {
 	color:  rgba(255, 255, 255, .8);
 	font: normal normal normal 16px/1 FontAwesome !important;
 	height: 16px !important;
 	padding : 0px !important;
 }
-
 .ad-textarea {
 	width:100% !important;
 	border:0px !important;
@@ -75,7 +73,6 @@ body {
 	font: normal normal normal 16px/1 FontAwesome !important;
 	padding:0px;
 }
-
 .modal-dialog-loader {
 	border: 7px solid #f3f3f3; /* Light grey */
 	border-top: 7px solid #d11717; /* Blue */
@@ -90,7 +87,6 @@ body {
 	animation: spin 1.5s linear infinite;
 	z-index: 9999;
 }
-
 .loader {
 	border: 7px solid #f3f3f3; /* Light grey */
 	border-top: 7px solid #d11717; /* Blue */
@@ -105,12 +101,10 @@ body {
 	animation: spin 1.5s linear infinite;
 	z-index: 9999;
 }
-
 @keyframes spin {
 	0% { transform: rotate(0deg); }
 	100% { transform: rotate(360deg); }
 }
-
 a,
 button {
 	transition: all .25s ease;
@@ -1083,6 +1077,40 @@ footer {
 	    color: rgba(255, 255, 255, .5);
     font-family: "Open Sans";
     font-weight: 400;
+}
+
+#up-container #AccSettings-box #hf-button {
+	width: 60%;
+	text-transform: uppercase;
+	padding: 12px 0px;
+	font-weight: 700;
+	color: #fff !important;
+	white-space: normal;
+	background-color: #d11717;
+	text-decoration: none !important;
+	outline: 0 !important;
+	visibility: visible;
+	border: 0;
+	font-size: 14px;
+	line-height: 14px;
+	cursor: pointer;
+	display: inline-block;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	box-shadow: 0 2px 0 #b11313;
+	border-radius: 3px;
+	letter-spacing: .3px;
+}
+#up-container #AccSettings-box #hf-button:hover {
+	background: #b01b1c;
+}
+#up-container #AccSettings-box #hf-button i {
+	font-size: 14px;
+	vertical-align: middle;
+	line-height: 17px;
+	margin-right: 3px;
+	margin-top: -3px;
+	font-weight: 400;
 }
 
 #up-container #manageAdsBox-container{

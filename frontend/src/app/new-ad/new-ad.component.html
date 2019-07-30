@@ -1,6 +1,7 @@
 <!--main content-->
 <div class="main-content-wrapper">
 	<div class="container" id="nap-container">
+		<div class="loader" style = "display:none;"></div>
 		<div class="row">
 			<form [formGroup]="newForm" id = "newForm" method="post">
 				<div id="vehicleDetailsBox-container">
@@ -18,9 +19,9 @@
 							</div>
 							<div class="col-md-12 col-sm-12">
 								<div class="hf-label" style="">PRICE</div>
-								<input formControlName = "price" class = "form-control ad-input" type = "text" [ngClass]="{ 'is-invalid': submitted && fNew.price.errors }" placeholder = "Enter price"/>
+								<input formControlName = "price" class = "form-control ad-input" type = "number" [ngClass]="{ 'is-invalid': submitted && fNew.price.errors }" placeholder = "Enter price"/>
 								<div *ngIf="submitted && fNew.price.errors" class="invalid-feedback">
-									<div *ngIf="fNew.price.errors.required">Price is required</div>
+									<div *ngIf="fNew.price.errors.required">Price is only required number</div>
 								</div>
 							</div>
 							<div class="col-md-12 col-sm-12">

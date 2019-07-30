@@ -28,4 +28,7 @@ export class UserService {
     return this.http.put(this.commonService.baseurl + '/users/' + user_id, {fname:fname, fvalue:fvalue});
   }
 
+  updateUser2(user_id:string, user:UserModel){
+    return this.http.put(this.commonService.baseurl + '/users2/' + user_id, {user:user});
+  }
 }

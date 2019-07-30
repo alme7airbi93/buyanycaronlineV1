@@ -118,14 +118,12 @@ export class IndexComponent implements OnInit {
     });
   }
 
-  showHomeAdvanced() {
-		
+  showHomeAdvanced() {		
 		var x = document.getElementById("home-form");
 		if (x.className === "clearfix") {
 			x.className += " open";
 		} else {
 			x.className = "clearfix";
 		}
-
 	}
 }

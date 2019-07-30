@@ -188,12 +188,15 @@ export class NewAdComponent implements OnInit {
   }
 
   onUploadSubmit() {
+    $('.loader').show();
     const formData = new FormData();
+
     formData.append('file', this.uploadForm.get('carimg').value);
     
     this.uploadService.upload(formData, this.car_id).subscribe(
       data => {
         if(data.success == true) {
+          $('.loader').hide();
           this.getCarAloneById(this.car_id);          
         }
       }
@@ -214,6 +217,7 @@ export class NewAdComponent implements OnInit {
     
     this.adService.updateAd(this.vehicle.ad_id, 'publish', 'true').subscribe(
       data => {
+        this.router.navigate(["/car-search"]);
       }
     );   
   }

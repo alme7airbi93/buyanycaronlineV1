@@ -2,29 +2,49 @@
 <div class="main-content-wrapper">
 	<div class="container" id="up-container">
 		<div class="row">
+			<form [formGroup]="accountForm" method="post">
 			<div id="AccSettingsBox-container">
 				<div id="AccSettings-box">
 					<h2>Account Settings</h2>
 					<div style="margin-top: 20px;">
 						<input id = "userid" type = "hidden" value = "{{user.id}}" />
-						<div>
+						<div class="form-group">
 							<div>
 								<span>Name: </span><a>{{user.username}}</a><i class="fa fa-pencil" aria-hidden="true"></i>
 							</div>
 							<div class = "d-none">
-								<input id = "username" class = "ba-input" type = "text" placeholder = "Enter email address">
+								<input email type="text" id="username" formControlName="username" class="form-control ba-input" [ngClass]="{ 'is-invalid': submitted && fAccount.username.errors }" placeholder="Enter email address"/>
 								<i class="fa fa-check" aria-hidden="true"></i>
+								<div *ngIf="submitted && fAccount.username.errors" class="invalid-feedback">
+									<div *ngIf="fAccount.username.errors.exist">User name already used</div>
+									<div *ngIf="fAccount.username.errors.email">Email is required</div>
+								</div>
 							</div>
 						</div>
 						
 						<div>
 							<div>
-								<span>Password: </span><a></a><i class="fa fa-pencil" aria-hidden="true"></i>
+								<span>Password: </span><a>**********</a><i class="fa fa-pencil" aria-hidden="true"></i>
 							</div>
 							<div class = "d-none">
-								<input id = "password" class = "ba-input" type = "password" placeholder = "Enter password">
+								<input id = "password" formControlName="password" class = "form-control ba-input" type = "password" [ngClass]="{ 'is-invalid': submitted && fAccount.password.errors }" placeholder = "Enter password">
 								<i class="fa fa-check" aria-hidden="true"></i>
+								<div *ngIf="submitted && fAccount.password.errors" class="invalid-feedback">
+									<div *ngIf="fAccount.password.errors.required">Password is required</div>
+									<div *ngIf="fAccount.password.errors.minlength">Password must be at least 6 characters</div>
+								</div>
 							</div>
+						</div>
+
+						<div>
+							<div id="confimrPasswordDiv" class = "d-none">
+								<input id = "confirmPassword" formControlName="confirmPassword" class = "form-control ba-input" type = "password" [ngClass]="{ 'is-invalid': submitted && fAccount.confirmPassword.errors }" placeholder = "Enter confirm password">
+								<div *ngIf="submitted && fAccount.confirmPassword.errors" class="invalid-feedback">
+									<div *ngIf="fAccount.confirmPassword.errors.required">Confirm Password is required</div>
+									<div *ngIf="fAccount.confirmPassword.errors.minlength">Password must be at least 6 characters</div>
+									<div *ngIf="fAccount.confirmPassword.errors.mustMatch">Passwords must match</div>
+								</div>
+							</div>							
 						</div>
 						
 						<div class="hf-label">ADDRESS</div>
@@ -70,8 +90,12 @@
 							</div>
 						</div>
 					</div>
+					<!--<div style="text-align:center;">
+						<button type="submit" class="button" id="hf-button">Save</button>
+					</div>-->
 				</div>
 			</div>
+			</form>
 			<div id="manageAdsBox-container">
 				<div id="manageAds-box">
 					<h2>Manage Ads</h2>

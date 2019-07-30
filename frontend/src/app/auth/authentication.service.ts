@@ -23,6 +23,7 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
+    
     login(username: string, password: string) {
         return this.http.post<any>(this.commonService.baseurl + '/users/authenticate', { username, password })
             .pipe(map(user => {
@@ -35,6 +36,14 @@ export class AuthenticationService {
 
                 return user;
             }));
+    }
+
+    register(user: UserModel) {
+        if (user && user.token) {
+            // store user details and jwt token in local storage to keep user logged in between page refreshes
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            this.currentUserSubject.next(user);
+        }
     }
 
     logout() {

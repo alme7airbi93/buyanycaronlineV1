@@ -8,6 +8,8 @@ import { UserService } from './modules/user.service';
 import { AuthenticationService } from './auth/authentication.service';
 import { ConditionalExpr } from '@angular/compiler';
 import { BillingInfoModel } from './modules/billinginfo.model';
+import { Md5 } from 'ts-md5/dist/md5';
+
 declare var $: any;
 
 @Component({
@@ -19,7 +21,8 @@ declare var $: any;
 export class AppComponent {
   title = 'buyanycaronline';
 
-  currentUser: UserModel;
+  currentUser : UserModel;
+  user        : UserModel;
   loginForm   : FormGroup;
   registerForm: FormGroup;
   returnUrl   : string;
@@ -27,7 +30,7 @@ export class AppComponent {
 
   loading     = false;
   submitted   = false;
-
+    
   constructor(
       private formBuilder: FormBuilder,
       private router: Router,
@@ -40,14 +43,14 @@ export class AppComponent {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      username        : [' ', Validators.required],
-      password        : [' ', [Validators.required, Validators.minLength(5)]]
+      username        : ['', [Validators.required, Validators.email]],
+      password        : ['', [Validators.required, Validators.minLength(6)]]
     });
 
     this.registerForm = this.formBuilder.group({
-      username        : ['', Validators.required],
-      password        : ['', [Validators.required, Validators.minLength(5)]],
-      confirmPassword : ['', [Validators.required, Validators.minLength(5)]]
+      username        : ['', [Validators.required, Validators.email]],
+      password        : ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword : ['', [Validators.required, Validators.minLength(6)]]
     }, {
       validator: this.MustMatch('password', 'confirmPassword')
     });
@@ -85,7 +88,9 @@ export class AppComponent {
     this.loading = true;
     $('.modal-dialog-loader').show();
 
-    this.authenticationService.login(this.fLogin.username.value, this.fLogin.password.value)
+    let password = Md5.hashStr(this.fLogin.password.value).toString();
+
+    this.authenticationService.login(this.fLogin.username.value, password)
       .pipe(first())
       .subscribe(
         (data:UserModel) => {
@@ -113,19 +118,36 @@ export class AppComponent {
     this.loading = true;
     $('.modal-dialog-loader').show();
 
-    this.userService.addUser(this.registerForm.value)
+    this.user = {
+      id              : '',
+      username        : this.fRegister.username.value,
+      password        : Md5.hashStr(this.fRegister.password.value).toString(),
+      type            : '',
+      message_id      : '',
+      billinginfo_id  : '',
+      token           : ''
+    }
+
+    this.userService.addUser(this.user)
       .pipe(first())
       .subscribe(
         (user:UserModel) => {
           $('.modal-dialog-loader').hide();
           if (user && user.token) {
             $('#registerPopup').modal('toggle');
-            $('#loginPopup').modal('toggle');
+            
+            this.authenticationService.register(user);
+            this.currentUser = user;
+
+            if (user.type == 'ADMIN')
+              this.router.navigate(["/monitor-page"]);
+            else
+              this.router.navigate(['/user-profile/' + user.id]);
           }
         },
         err => {
           $('.modal-dialog-loader').hide();
-          this.registerForm.controls["confirmPassword"].setErrors({ exist : true });
+          this.registerForm.controls["username"].setErrors({ exist : true });
           this.loading = false;
         });
   }

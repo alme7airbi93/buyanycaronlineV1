@@ -132,7 +132,7 @@ exports.update2 = (req, res) => {
             res.send({message: "User updated successfully!"});
         }).catch(err => {
             return res.status(500).send({
-                message: err.message || "Could not delete user with id " + req.params.id
+                message: err.message || "Could not update user with id " + req.params.id
             });
         });
 };
@@ -164,7 +164,7 @@ exports.update = (req, res) => {
             res.send({message: "User updated successfully!"});
         }).catch(err => {
             return res.status(500).send({
-                message: err.message || "Could not delete user with id " + req.params.id
+                message: err.message || "Could not update user with id " + req.params.id
             });
         });
 };
@@ -196,7 +196,7 @@ exports.delete = (req, res) => {
 };
 
 // Authenticate a user with user name and password
-exports.authenticate = (req, res) => {
+exports.authenticate = async (req, res) => {
 
     // Request validation
     if(!req.body) {
@@ -208,7 +208,7 @@ exports.authenticate = (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
 
-    db.collection('users')
+    await db.collection('users')
         .where('username', '==', username).get()
         .then((snapshot) => {
             snapshot.forEach((doc) => {
@@ -229,5 +229,9 @@ exports.authenticate = (req, res) => {
                 message: err.message || "Something wrong while retrieving users with name."
             });
         });
+
+    return res.status(400).send({
+        message: "The username is incorrect."
+    });
 }
 

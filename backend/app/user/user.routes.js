@@ -16,6 +16,9 @@ module.exports = (app) => {
     // Update a User with id
     app.put('/users/:id', users.update);
 
+    // Update a User with id
+    app.put('/users2/:id', users.update2);
+
     // Delete a User with id
     app.delete('/users/:id', users.delete);
 }
